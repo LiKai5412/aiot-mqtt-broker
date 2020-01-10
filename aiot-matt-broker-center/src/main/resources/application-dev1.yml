@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://10.20.0.94:3306/message?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=false&useTimezone=true
+    username: dev1
+    password: K(adjJIaf7RT
+  redis:
+    cluster:
+      nodes: 10.20.0.85:6379
+#  cloud:
+#    consul:
+#      host: 10.20.0.75
+
+jasypt:
+  encryptor:
+    password: aiot-sunvalley
+
+otter:
+  apiError:
+    debug: true
+    header: eCh0
+  rmiError:
+    debug: true
+
+logging:
+  level:
+    com.sunvalley: debug
+    mvc.api: debug
+    mvc.rmi: debug
+
