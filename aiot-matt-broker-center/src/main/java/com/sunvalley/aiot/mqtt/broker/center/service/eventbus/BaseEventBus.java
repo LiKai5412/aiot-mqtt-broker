@@ -15,7 +15,7 @@ import java.lang.reflect.ParameterizedType;
  * @Date: 2020/1/14 9:17
  * @Desc: eventBus抽象类
  */
-public abstract class EventBusBroker<E> implements InitializingBean {
+public abstract class BaseEventBus<E> implements InitializingBean {
 
     private Logger log0 = LoggerFactory.getLogger(getClass());
 

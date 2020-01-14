@@ -3,7 +3,7 @@ package com.sunvalley.aiot.mqtt.broker.center.service.impl;
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
 import com.sunvalley.aiot.mqtt.broker.center.bean.mqtt.MqttLogin;
 import com.sunvalley.aiot.mqtt.broker.center.service.MqttLoginService;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttLoginBroker;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttLoginEventBus;
 import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaClientDelegate;
 import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttLoginBo;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class MqttLoginServiceImpl implements MqttLoginService {
 
 
     @Autowired
-    private MqttLoginBroker mqttLoginBroker;
+    private MqttLoginEventBus mqttLoginBroker;
 
     @Autowired
     private KafKaClientDelegate kafKaClient;

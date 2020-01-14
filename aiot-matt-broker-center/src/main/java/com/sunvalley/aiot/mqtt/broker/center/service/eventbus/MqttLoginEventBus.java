@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @Slf4j
 @Service
 @Validated
-public class MqttLoginBroker extends EventBusBroker<EventLogin> {
+public class MqttLoginEventBus extends BaseEventBus<EventLogin> {
 
     @Value("${mqtt.event-address.login:mqtt.event.login}")
     private String address;

@@ -1,7 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.feign.impl;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventPublish;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttPublishBroker;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttPublishEventBus;
 import com.sunvalley.aiot.mqtt.broker.client.bean.MqttPublishBo;
 import com.sunvalley.aiot.mqtt.broker.client.service.MqttPublishService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MqttPublishServiceImpl implements MqttPublishService {
 
     @Autowired
-    private MqttPublishBroker mqttPublishBroker;
+    private MqttPublishEventBus mqttPublishEventBus;
 
     @Override
     @PostMapping("pub")
     public void publish(@Validated MqttPublishBo publish) {
         //todo
         // warp
-        mqttPublishBroker.broadMessage(new EventPublish());
+        mqttPublishEventBus.broadMessage(new EventPublish());
     }
 }
