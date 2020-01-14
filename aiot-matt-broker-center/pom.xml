@@ -10,18 +10,56 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aiot-matt-broker-center</artifactId>
 
-
+    <properties>
+        <vertx.version>3.8.4</vertx.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.sunvalley</groupId>
             <artifactId>aiot-framework-base</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.vertx/vertx-mqtt -->
+        <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-mqtt</artifactId>
-            <version>4.0.0-milestone4</version>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-zookeeper</artifactId>
+            <version>${vertx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-kafka-client</artifactId>
+            <version>${vertx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.sunvalley</groupId>
+            <artifactId>aiot-mqtt-broker-client</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
