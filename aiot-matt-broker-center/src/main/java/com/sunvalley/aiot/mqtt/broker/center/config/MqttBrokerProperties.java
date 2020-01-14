@@ -15,13 +15,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @RefreshScope
 @ConfigurationProperties("mqtt.broker")
 public class MqttBrokerProperties {
+
     /**
-     * 异步核心线程数，默认：2
+     * mqtt-broker 端口号
      */
-    private int maxProcess = 2;
-    /**
-     * 异步最大线程数，默认：50
-     */
-    private int serverPort = 43011;
+    private Integer serverPort;
 
 }

@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class EventPublish {
-    private String deviceId;
+    private String clientId;
 }
