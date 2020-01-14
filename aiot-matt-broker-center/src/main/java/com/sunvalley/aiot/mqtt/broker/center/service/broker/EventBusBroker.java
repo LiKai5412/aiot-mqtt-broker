@@ -1,11 +1,8 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.broker;
 
-import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseUserCodec;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.MessageCodecLogin;
+import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.eventbus.MessageConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,5 +65,5 @@ public abstract class EventBusBroker<E> implements InitializingBean {
      */
     protected abstract String address();
 
-    protected abstract BaseUserCodec<E> messageCodec();
+    protected abstract BaseMessageCodec<E> messageCodec();
 }

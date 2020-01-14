@@ -1,7 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.broker;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseUserCodec;
+import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
 import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.MessageCodecLogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +39,7 @@ public class MqttLoginBroker extends EventBusBroker<EventLogin> {
     }
 
     @Override
-    protected BaseUserCodec<EventLogin> messageCodec() {
+    protected BaseMessageCodec<EventLogin> messageCodec() {
         return new MessageCodecLogin();
     }
 }

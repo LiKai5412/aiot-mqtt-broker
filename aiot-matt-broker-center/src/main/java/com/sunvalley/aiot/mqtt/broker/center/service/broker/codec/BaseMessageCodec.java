@@ -13,7 +13,7 @@ import java.lang.reflect.ParameterizedType;
  * @Desc: event bus 自定义编解码器
  * 单继承该基类
  */
-public abstract class BaseUserCodec<S> implements MessageCodec<S, S> {
+public abstract class BaseMessageCodec<S> implements MessageCodec<S, S> {
 
 
     @Override

@@ -7,7 +7,7 @@ import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
  * @Date: 2020/1/13 9:44
  * @Desc: ****
  */
-public class MessageCodecLogin extends BaseUserCodec<EventLogin> {
+public class MessageCodecLogin extends BaseMessageCodec<EventLogin> {
 
 
 }

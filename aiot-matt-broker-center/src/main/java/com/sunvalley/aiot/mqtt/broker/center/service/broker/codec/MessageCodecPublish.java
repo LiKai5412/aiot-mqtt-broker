@@ -7,6 +7,6 @@ import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventPublish;
  * @Date: 2020/1/13 9:44
  * @Desc: publish
  */
-public class MessageCodecPublish extends BaseUserCodec<EventPublish> {
+public class MessageCodecPublish extends BaseMessageCodec<EventPublish> {
 
 }
