@@ -1,9 +1,8 @@
-package com.sunvalley.aiot.mqtt.broker.center.service.broker.codec;
+package com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec;
 
 import com.sunvalley.otter.framework.core.utils.UtilJson;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
-import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.ParameterizedType;

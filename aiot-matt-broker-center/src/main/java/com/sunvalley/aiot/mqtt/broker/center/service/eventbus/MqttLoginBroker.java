@@ -1,8 +1,8 @@
-package com.sunvalley.aiot.mqtt.broker.center.service.broker;
+package com.sunvalley.aiot.mqtt.broker.center.service.eventbus;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.MessageCodecLogin;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.BaseMessageCodec;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.MessageCodecLogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 /**
  * @Author: Simms.shi
  * @Date: 2020/1/13 10:37
- * @Desc: ****
+ * @Desc: 登录事件
  */
 @Slf4j
 @Service

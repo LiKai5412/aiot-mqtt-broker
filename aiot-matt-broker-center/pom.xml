@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.sunvalley</groupId>
             <artifactId>aiot-mqtt-broker-client</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

@@ -1,7 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.feign.impl;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventPublish;
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.MqttPublishBroker;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttPublishBroker;
 import com.sunvalley.aiot.mqtt.broker.client.bean.MqttPublishBo;
 import com.sunvalley.aiot.mqtt.broker.client.service.MqttPublishService;
 import lombok.extern.slf4j.Slf4j;

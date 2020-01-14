@@ -1,9 +1,8 @@
-package com.sunvalley.aiot.mqtt.broker.center.service.broker;
+package com.sunvalley.aiot.mqtt.broker.center.service.eventbus;
 
-import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
+import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.BaseMessageCodec;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.MessageConsumer;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

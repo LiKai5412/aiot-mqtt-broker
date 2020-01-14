@@ -1,4 +1,4 @@
-package com.sunvalley.aiot.mqtt.broker.center.service.broker.codec;
+package com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventPublish;
 
