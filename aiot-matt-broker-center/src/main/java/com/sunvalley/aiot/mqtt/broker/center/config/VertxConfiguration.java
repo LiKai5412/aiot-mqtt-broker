@@ -2,8 +2,6 @@ package com.sunvalley.aiot.mqtt.broker.center.config;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
-import io.vertx.core.WorkerExecutor;
-import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.kafka.client.producer.KafkaProducer;
@@ -50,11 +48,6 @@ public class VertxConfiguration {
         options.setClusterManager(mgr);
         Vertx vertx = Vertx.vertx(options);
         return vertx;
-    }
-
-    @Bean
-    public EventBus eventBus(Vertx vertx) {
-        return vertx.eventBus();
     }
 
 

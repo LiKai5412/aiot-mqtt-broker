@@ -2,7 +2,6 @@ package com.sunvalley.aiot.mqtt.broker.center.service.broker;
 
 import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +20,11 @@ public abstract class EventBusBroker<E> implements InitializingBean {
     @Autowired
     protected Vertx vertx;
 
-    @Autowired
-    protected EventBus eventBus;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        eventBus.registerCodec(messageCodec());
-        MessageConsumer<E> consumer = eventBus.consumer(address());
+        vertx.eventBus().registerCodec(messageCodec());
+        MessageConsumer<E> consumer = vertx.eventBus().consumer(address());
         consumer.handler(event -> handleMessage(event.body()));
         consumer.exceptionHandler(this::handleException);
     }
@@ -39,7 +36,7 @@ public abstract class EventBusBroker<E> implements InitializingBean {
      */
     public void broadMessage(E event) {
         log0.debug("broadMessage event:{}", event);
-        eventBus.publish(address(), event);
+        vertx.eventBus().publish(address(), event);
     }
 
     /**

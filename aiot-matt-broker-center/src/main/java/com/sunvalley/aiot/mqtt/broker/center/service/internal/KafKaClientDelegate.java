@@ -37,7 +37,7 @@ public class KafKaClientDelegate {
 
     private Handler<AsyncResult<RecordMetadata>> handlerResult = result -> {
         RecordMetadata metadata = result.result();
-        if (log.isDebugEnabled()) {
+        if (metadata != null && log.isDebugEnabled()) {
             log.debug("KafKa producer message end,record metadata:{}", metadata.toJson());
         }
         if (result.failed()) {
