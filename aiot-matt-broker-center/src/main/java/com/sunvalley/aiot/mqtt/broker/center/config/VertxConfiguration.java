@@ -34,6 +34,11 @@ public class VertxConfiguration {
           在业务处理中,提升并发度
           在io处理尽量执行(非阻塞)异步代码,
           同时避免锁竞争
+        【参考实现】
+          采用FiberHandler
+          https://vertx.io/docs/vertx-sync/java/#_using_a_code_fiberhandler_code
+          http://vertxchina.github.io/vertx-translation-chinese/reactive/Sync.html
+          https://github.com/vert-x3/vertx-examples/tree/master/sync-examples
          */
         options.setWorkerPoolSize(vertxProperties.getWorkerThreads());
 
