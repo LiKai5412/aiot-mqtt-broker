@@ -3,10 +3,13 @@ package com.sunvalley.aiot.mqtt.broker.center.service.broker;
 import com.sunvalley.aiot.mqtt.broker.center.service.broker.codec.BaseMessageCodec;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.MessageConsumer;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.lang.reflect.ParameterizedType;
 
 /**
  * @Author: Simms.shi
@@ -21,9 +24,12 @@ public abstract class EventBusBroker<E> implements InitializingBean {
     protected Vertx vertx;
 
 
+    private Class<E> clazz = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
+            .getActualTypeArguments()[0];
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        vertx.eventBus().registerCodec(messageCodec());
+        vertx.eventBus().registerDefaultCodec(clazz, messageCodec());
         MessageConsumer<E> consumer = vertx.eventBus().consumer(address());
         consumer.handler(event -> handleMessage(event.body()));
         consumer.exceptionHandler(this::handleException);
@@ -62,5 +68,10 @@ public abstract class EventBusBroker<E> implements InitializingBean {
      */
     protected abstract String address();
 
+    /**
+     * 自定义编解码器
+     *
+     * @return
+     */
     protected abstract BaseMessageCodec<E> messageCodec();
 }

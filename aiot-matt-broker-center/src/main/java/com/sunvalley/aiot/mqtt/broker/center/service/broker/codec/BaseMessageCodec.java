@@ -3,6 +3,7 @@ package com.sunvalley.aiot.mqtt.broker.center.service.broker.codec;
 import com.sunvalley.otter.framework.core.utils.UtilJson;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.ParameterizedType;
@@ -41,6 +42,7 @@ public abstract class BaseMessageCodec<S> implements MessageCodec<S, S> {
     public byte systemCodecID() {
         return -1;
     }
+
 
     private Class<S> clazz = (Class<S>) ((ParameterizedType) getClass().getGenericSuperclass())
             .getActualTypeArguments()[0];

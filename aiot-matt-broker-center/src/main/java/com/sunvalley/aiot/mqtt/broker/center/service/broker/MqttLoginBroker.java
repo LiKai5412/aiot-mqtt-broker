@@ -28,6 +28,7 @@ public class MqttLoginBroker extends EventBusBroker<EventLogin> {
      */
     @Override
     protected void handleMessage(EventLogin event) {
+        log.debug("handleMessage.eventLogin:{}", event);
         // 下线掉 本节点已上线设备
 //        worker.executeBlocking();
     }

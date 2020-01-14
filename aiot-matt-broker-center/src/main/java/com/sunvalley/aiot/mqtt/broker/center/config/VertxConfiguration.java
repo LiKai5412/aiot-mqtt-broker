@@ -31,8 +31,8 @@ public class VertxConfiguration {
         VertxOptions options = new VertxOptions();
         /*
         【非常重要】 work线程数量,默认128
-          在业务处理中,计算型问题不大；
-          在其他io处理尽量执行(非阻塞)异步代码,提升并发度
+          在业务处理中,提升并发度
+          在io处理尽量执行(非阻塞)异步代码,
           同时避免锁竞争
          */
         options.setWorkerPoolSize(vertxProperties.getWorkerThreads());
@@ -44,8 +44,8 @@ public class VertxConfiguration {
                 .put("initialSleepTime", 3000)
                 .put("maxTimes", 3));
         ClusterManager mgr = new ZookeeperClusterManager(zkConfig);
-
         options.setClusterManager(mgr);
+
         Vertx vertx = Vertx.vertx(options);
         return vertx;
     }
