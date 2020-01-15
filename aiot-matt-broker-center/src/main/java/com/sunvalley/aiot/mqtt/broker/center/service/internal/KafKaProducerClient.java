@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @Slf4j
 @Service
 @Validated
-public class KafKaClientDelegate {
+public class KafKaProducerClient {
 
     @Autowired
     private KafkaProducer<String, String> kafkaProducer;

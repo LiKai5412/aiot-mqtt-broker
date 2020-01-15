@@ -4,7 +4,7 @@ import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
 import com.sunvalley.aiot.mqtt.broker.center.bean.mqtt.MqttLogin;
 import com.sunvalley.aiot.mqtt.broker.center.service.MqttLoginService;
 import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttLoginEventBus;
-import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaClientDelegate;
+import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaProducerClient;
 import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttLoginBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class MqttLoginServiceImpl implements MqttLoginService {
     private MqttLoginEventBus mqttLoginBroker;
 
     @Autowired
-    private KafKaClientDelegate kafKaClient;
+    private KafKaProducerClient kafKaClient;
 
     @Value("${broker.topic.login}")
     private String topicLogin;

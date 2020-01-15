@@ -2,7 +2,7 @@ package com.sunvalley.aiot.mqtt.broker.center.service.impl;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.mqtt.MqttBeat;
 import com.sunvalley.aiot.mqtt.broker.center.service.MqttBeatService;
-import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaClientDelegate;
+import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaProducerClient;
 import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttBeatBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.validation.annotation.Validated;
 public class MqttBeatServiceImpl implements MqttBeatService {
 
     @Autowired
-    private KafKaClientDelegate kafKaClient;
+    private KafKaProducerClient kafKaClient;
 
     @Value("${broker.topic.beat}")
     private String topicBeat;

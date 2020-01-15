@@ -1,8 +1,9 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.eventbus;
 
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.BaseMessageCodec;
+import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaProducerClient;
+import com.sunvalley.otter.framework.core.utils.UtilJson;
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.kafka.client.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,16 +23,20 @@ public abstract class BaseEventBus<E> implements InitializingBean {
     @Autowired
     protected Vertx vertx;
 
+    @Autowired
+    private KafkaConsumer<String, String> kafkaConsumer;
+
+    @Autowired
+    private KafKaProducerClient KafKaProducerClient;
 
     private Class<E> clazz = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
             .getActualTypeArguments()[0];
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        vertx.eventBus().registerDefaultCodec(clazz, messageCodec());
-        MessageConsumer<E> consumer = vertx.eventBus().consumer(address());
-        consumer.handler(event -> handleMessage(event.body()));
-        consumer.exceptionHandler(this::handleException);
+        kafkaConsumer.subscribe(eventTopic());
+        kafkaConsumer.handler(event -> handleMessage(UtilJson.readValue(event.value(), clazz)));
+        kafkaConsumer.exceptionHandler(this::handleException);
     }
 
     /**
@@ -41,7 +46,8 @@ public abstract class BaseEventBus<E> implements InitializingBean {
      */
     public void broadMessage(E event) {
         log0.debug("broadMessage event:{}", event);
-        vertx.eventBus().publish(address(), event);
+//        vertx.eventBus().publish(address(), event);
+        KafKaProducerClient.producerMessage(eventTopic(), event);
     }
 
     /**
@@ -65,12 +71,7 @@ public abstract class BaseEventBus<E> implements InitializingBean {
      *
      * @return
      */
-    protected abstract String address();
+    protected abstract String eventTopic();
 
-    /**
-     * 自定义编解码器
-     *
-     * @return
-     */
-    protected abstract BaseMessageCodec<E> messageCodec();
+
 }

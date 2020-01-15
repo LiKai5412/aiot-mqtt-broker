@@ -2,7 +2,7 @@ package com.sunvalley.aiot.mqtt.broker.center.controller;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
 import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.MqttLoginEventBus;
-import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaClientDelegate;
+import com.sunvalley.aiot.mqtt.broker.center.service.internal.KafKaProducerClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -26,21 +26,21 @@ public class BgController {
 
 
     @Autowired
-    private KafKaClientDelegate kafKaClientDelegate;
+    private KafKaProducerClient kafKaClient;
 
     @Autowired
     private MqttLoginEventBus mqttLoginBroker;
 
 
     @PostMapping("kfk")
-    public String sendKfK(@RequestParam String topic,@RequestParam  String message){
-        kafKaClientDelegate.producerMessage(topic, Map.of("message",message));
+    public String sendKfK(@RequestParam String topic, @RequestParam String message) {
+        kafKaClient.producerMessage(topic, Map.of("message", message));
         return "succ";
     }
 
 
     @PostMapping("eventLogin")
-    public String sendEventLogin(@RequestParam String clientId){
+    public String sendEventLogin(@RequestParam String clientId) {
         EventLogin event = new EventLogin();
         event.setClientId(clientId);
         mqttLoginBroker.broadMessage(event);
