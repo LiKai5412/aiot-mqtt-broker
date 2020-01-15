@@ -1,8 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.eventbus;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventPublish;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.BaseMessageCodec;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.MessageCodecPublish;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class MqttPublishEventBus extends BaseEventBus<EventPublish> {
 
-    @Value("${mqtt.event-address.publish:mqtt.event.publish}")
+    @Value("${event.topic.instruct}")
     private String address;
 
     /**
@@ -34,13 +32,13 @@ public class MqttPublishEventBus extends BaseEventBus<EventPublish> {
 
 
     @Override
-    protected String address() {
+    protected String eventTopic() {
         return address;
     }
 
-    @Override
-    protected BaseMessageCodec<EventPublish> messageCodec() {
-        return new MessageCodecPublish();
-    }
+//    @Override
+//    protected BaseMessageCodec<EventPublish> messageCodec() {
+//        return new MessageCodecPublish();
+//    }
 
 }

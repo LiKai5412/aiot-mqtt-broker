@@ -1,13 +1,18 @@
 vertx:
-  zookeeperHosts: 10.20.0.92
   kafka:
     bootstrapServer: 10.20.0.92:9092
 
+
+event:
+  topic:
+    login: aiot-event-login_dev
+    instruct: aiot-event-instruct_dev
+
 broker:
   topic:
-    login: aiot-mqtt-login_dev
-    beat: aiot-mqtt-beat_dev
-    instruct: aiot-mqtt-instruct_dev
+    login: aiot-broker-login_dev
+    beat: aiot-broker-beat_dev
+    instruct: aiot-broker-instruct_dev
 
 jasypt:
   encryptor:

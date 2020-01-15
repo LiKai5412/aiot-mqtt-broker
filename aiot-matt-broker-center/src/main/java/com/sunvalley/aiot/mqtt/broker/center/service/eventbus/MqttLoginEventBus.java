@@ -1,8 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.center.service.eventbus;
 
 import com.sunvalley.aiot.mqtt.broker.center.bean.event.EventLogin;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.BaseMessageCodec;
-import com.sunvalley.aiot.mqtt.broker.center.service.eventbus.codec.MessageCodecLogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class MqttLoginEventBus extends BaseEventBus<EventLogin> {
 
-    @Value("${mqtt.event-address.login:mqtt.event.login}")
+    @Value("${event.topic.login}")
     private String address;
 
     /**
@@ -35,12 +33,12 @@ public class MqttLoginEventBus extends BaseEventBus<EventLogin> {
 
 
     @Override
-    protected String address() {
+    protected String eventTopic() {
         return address;
     }
 
-    @Override
-    protected BaseMessageCodec<EventLogin> messageCodec() {
-        return new MessageCodecLogin();
-    }
+//    @Override
+//    protected BaseMessageCodec<EventLogin> messageCodec() {
+//        return new MessageCodecLogin();
+//    }
 }
