@@ -81,7 +81,7 @@ public class VertxConfiguration {
         config.put("bootstrap.servers", vertxProperties.getKafka().getBootstrapServer());
         config.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         config.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-//        config.put("group.id", consulDiscoveryProperties.getInstanceId()); //不分组
+        config.put("group.id", consulDiscoveryProperties.getInstanceId()); //不分组
         config.put("auto.offset.reset", "latest");
         config.put("enable.auto.commit", "false");
 

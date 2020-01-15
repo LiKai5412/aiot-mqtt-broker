@@ -46,7 +46,6 @@ public abstract class BaseEventBus<E> implements InitializingBean {
      */
     public void broadMessage(E event) {
         log0.debug("broadMessage event:{}", event);
-//        vertx.eventBus().publish(address(), event);
         KafKaProducerClient.producerMessage(eventTopic(), event);
     }
 
