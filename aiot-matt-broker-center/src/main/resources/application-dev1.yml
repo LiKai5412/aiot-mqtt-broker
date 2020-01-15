@@ -1,5 +1,4 @@
 vertx:
-  zookeeperHosts: 10.20.0.92
   kafka:
     bootstrapServer: 10.20.0.92:9092
 
