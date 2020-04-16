@@ -24,3 +24,10 @@ logging:
     mvc.api: debug
     mvc.rmi: debug
 
+mqtt:
+  tcp-server:
+    ip: localhost
+    port: 8084
+    heart-in-second: 20
+    tls: true
+    log: true
