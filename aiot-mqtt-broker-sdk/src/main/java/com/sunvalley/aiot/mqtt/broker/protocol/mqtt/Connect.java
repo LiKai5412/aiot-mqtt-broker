@@ -84,8 +84,9 @@ public class Connect {
             MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(deviceId);
             if (mqttConnection != null) {
                 sessionPresent = true;
+                mqttConnection.dispose();
             }
-        } else {
+        }else {
             //发送集群消息,关闭其他节点上的相同deviceId的连接
             clusterManager.sendInternalMessage(InternalMessage.buildConnMessage(deviceId));
         }
@@ -107,13 +108,7 @@ public class Connect {
         }
         // 存储会话信息及返回接受客户端连接
         channelManager.addConnections(connection);
-        if (!sessionPresent) {
-            channelManager.addDeviceId(deviceId, connection);
-        } else {
-            MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(deviceId);
-            mqttConnection.dispose();
-            channelManager.addDeviceId(deviceId, connection);
-        }
+        channelManager.addDeviceId(deviceId, connection);
         // 取消定时关闭连接
         Optional.ofNullable(connection.getConnection().channel().attr(AttributeKeys.CLOSE_CONNECTION))
                 .map(Attribute::get)
