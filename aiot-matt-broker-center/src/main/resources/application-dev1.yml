@@ -29,5 +29,5 @@ mqtt:
     ip: localhost
     port: 8084
     heart-in-second: 20
-    tls: true
+    tls: false
     log: true

@@ -58,17 +58,18 @@ public class MqttTcpServer implements AiotTcpServer {
     private TcpServer buildServer() {
         LoopResources loop = LoopResources.create("tcp-server-loop", mqttTcpServerProperties.getSelectorNum(),
                 mqttTcpServerProperties.getWorkerNum(), true);
-        TcpServer server = reactor.netty.tcp.TcpServer.create()
+        TcpServer server = TcpServer.create()
                 .port(mqttTcpServerProperties.getPort())
                 .wiretap(mqttTcpServerProperties.isLog())
                 .host(mqttTcpServerProperties.getIp())
                 .runOn(loop)
+                .selectorOption(ChannelOption.SO_BACKLOG, mqttTcpServerProperties.getBacklog())
+                .option(ChannelOption.TCP_NODELAY, mqttTcpServerProperties.isNoDelay())
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.SO_KEEPALIVE, mqttTcpServerProperties.isKeepAlive())
-                .option(ChannelOption.TCP_NODELAY, mqttTcpServerProperties.isNoDelay())
-                .option(ChannelOption.SO_BACKLOG, mqttTcpServerProperties.getBacklog())
                 .option(ChannelOption.SO_RCVBUF, mqttTcpServerProperties.getRevBufSize())
-                .option(ChannelOption.SO_SNDBUF, mqttTcpServerProperties.getSendBufSize());
+                .option(ChannelOption.SO_SNDBUF, mqttTcpServerProperties.getSendBufSize())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
         return mqttTcpServerProperties.isTls() ? server.secure(sslContextSpec -> sslContextSpec.sslContext(Objects.requireNonNull(buildContext()))) : server;
     }
 

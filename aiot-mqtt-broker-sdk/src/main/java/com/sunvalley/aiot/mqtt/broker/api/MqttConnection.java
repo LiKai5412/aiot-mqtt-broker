@@ -72,6 +72,7 @@ public class MqttConnection implements Disposable {
     @Override
     public void dispose() {
         connection.dispose();
+        destroy();
     }
 
     @Override

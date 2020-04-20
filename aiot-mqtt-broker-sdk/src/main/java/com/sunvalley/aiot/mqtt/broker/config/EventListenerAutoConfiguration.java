@@ -1,5 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.config;
 
+import com.sunvalley.aiot.mqtt.broker.event.listener.DisConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.event.listener.IdleEventListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -16,5 +17,11 @@ public class EventListenerAutoConfiguration {
     @ConditionalOnMissingBean(IdleEventListener.class)
     public IdleEventListener idleEventListener(){
         return new IdleEventListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DisConnEventListener.class)
+    public DisConnEventListener disConnEventListener(){
+        return new DisConnEventListener();
     }
 }

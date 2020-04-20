@@ -1,6 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.api;
 
 import com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerProperties;
+import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;
 import com.sunvalley.aiot.mqtt.broker.event.IdleEvent;
 import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.ProtocolProcessor;
@@ -71,7 +72,7 @@ public class ConnectionSubscriber implements Consumer<MqttConnection> {
                             }
                         });
                     });
-            connection.destroy();
+            mqttEventPublisher.publishEvent(new DisConnEvent(connection));
         });
         inbound.receiveObject().cast(MqttMessage.class)
                 .subscribe(message -> protocolProcessor.process(connection, message));

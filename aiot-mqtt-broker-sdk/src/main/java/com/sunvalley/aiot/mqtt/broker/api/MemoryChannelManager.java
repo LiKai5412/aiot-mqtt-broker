@@ -45,6 +45,6 @@ public class MemoryChannelManager implements ChannelManager {
 
     @Override
     public Boolean containsDeviceId(String deviceId) {
-        return connectionMap.contains(deviceId);
+        return connectionMap.containsKey(deviceId);
     }
 }

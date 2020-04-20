@@ -1,5 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.config;
 
+import io.netty.channel.ChannelOption;
 import io.netty.util.NettyRuntime;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -39,7 +40,7 @@ public class MqttTcpServerProperties {
 
     /**
      * Socket参数，服务端接受连接的队列长度，如果队列已满，客户端连接将被拒绝。默认值
-     * 这里默认设置 128
+     * 这里默认设置 1024
      */
     private int backlog = 1024;
 
@@ -59,6 +60,8 @@ public class MqttTcpServerProperties {
     private int selectorNum = 1;
 
     private int workerNum = NettyRuntime.availableProcessors() * 2;
+
+    private boolean reuseAddr = false;
 
     private Consumer<Throwable> throwableConsumer = throwable -> {
     };
