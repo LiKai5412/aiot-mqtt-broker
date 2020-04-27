@@ -40,7 +40,7 @@ public class MqttTcpServerBuilder {
         this.clusterManager = new NonClusterManager();
         this.messageManager = new MemoryMessageManager();
         this.protocolProcessor = new ProtocolProcessor((user, pass) -> true,
-                channelManager, messageManager, topicManager, clusterManager);
+                channelManager, messageManager, topicManager, clusterManager, mqttEventPublisher);
         this.mqttEventPublisher = new MqttEventPublisher();
         this.connectionSubscriber = new ConnectionSubscriber(topicManager, protocolProcessor, mqttTcpServerProperties, mqttEventPublisher);
     }

@@ -11,7 +11,7 @@
     <artifactId>aiot-mqtt-broker</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>aiot-matt-broker-center</module>
+        <module>aiot-mqtt-broker-center</module>
         <module>aiot-mqtt-broker-client</module>
         <module>aiot-mqtt-broker-sdk</module>
     </modules>

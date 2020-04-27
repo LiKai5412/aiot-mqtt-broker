@@ -10,6 +10,9 @@ import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
 import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
+import com.sunvalley.aiot.mqtt.broker.event.ConnEvent;
+import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;
+import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.aiot.mqtt.broker.utils.MqttMessageBuilder;
 import io.netty.handler.codec.mqtt.*;
@@ -39,12 +42,15 @@ public class Connect {
 
     private ClusterManager clusterManager;
 
+    private MqttEventPublisher mqttEventPublisher;
+
     public Connect(IAuthService authService, ChannelManager channelManager,
-                   ClusterManager clusterManager, TopicManager topicManager) {
+                   ClusterManager clusterManager, TopicManager topicManager, MqttEventPublisher mqttEventPublisher) {
         this.authService = authService;
         this.channelManager = channelManager;
         this.topicManager = topicManager;
         this.clusterManager = clusterManager;
+        this.mqttEventPublisher = mqttEventPublisher;
     }
 
     public boolean processConnect(MqttConnection connection, MqttConnectMessage msg) {
@@ -118,6 +124,7 @@ public class Connect {
         //返回accept
         connection.sendConnAckMessage(MqttConnectReturnCode.CONNECTION_ACCEPTED, sessionPresent && !cleanSession).subscribe();
         log.debug("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
+        mqttEventPublisher.publishEvent(new ConnEvent(connection));
         return true;
     }
 

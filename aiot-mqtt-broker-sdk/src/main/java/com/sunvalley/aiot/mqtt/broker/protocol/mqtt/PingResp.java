@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PingResp {
 
 	public void processPingResp(MqttConnection connection) {
-		log.debug("PINGRESP - deviceId: {}", connection.getDeviceId());
+		log.debug("PINGRESP - deviceId: {}", connection.getSn());
 		connection.sendPingResp().subscribe();
 	}
 

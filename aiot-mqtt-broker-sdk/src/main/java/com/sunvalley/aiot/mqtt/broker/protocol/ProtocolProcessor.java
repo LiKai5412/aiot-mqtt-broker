@@ -6,6 +6,7 @@ import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
+import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.mqtt.*;
 import io.netty.handler.codec.mqtt.*;
 import lombok.Data;
@@ -46,19 +47,22 @@ public class ProtocolProcessor {
 
     private TopicManager topicManager;
 
+    private MqttEventPublisher mqttEventPublisher;
+
     public ProtocolProcessor(){
 
     }
 
     public ProtocolProcessor(IAuthService authService, ChannelManager channelManager,
-                             MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager) {
+                             MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager, MqttEventPublisher mqttEventPublisher) {
         this.authService = authService;
         this.channelManager = channelManager;
         this.topicManager = topicManager;
-        this.connect = new Connect(authService, channelManager, clusterManager, topicManager);
+        this.mqttEventPublisher = mqttEventPublisher;
+        this.connect = new Connect(authService, channelManager, clusterManager, topicManager, mqttEventPublisher);
         this.pingResp = new PingResp();
         this.disConnect = new DisConnect();
-        this.publish = new Publish(messageManager, topicManager, clusterManager);
+        this.publish = new Publish(messageManager, topicManager, clusterManager, mqttEventPublisher);
         this.pubAck = new PubAck();
         this.pubRec = new PubRec();
         this.pubRel = new PubRel(topicManager, clusterManager);
@@ -68,7 +72,7 @@ public class ProtocolProcessor {
     }
 
     public void process(MqttConnection connection, MqttMessage message) {
-        log.info("accept message connection {} info{}", connection.getConnection(), message);
+        log.debug("accept message connection {} info{}", connection.getConnection(), message);
         switch (message.fixedHeader().messageType()) {
             case CONNECT:
                 connect.processConnect(connection, (MqttConnectMessage) message);

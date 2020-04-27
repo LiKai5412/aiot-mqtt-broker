@@ -80,7 +80,7 @@ public class MqttConnection implements Disposable {
         return connection.isDisposed();
     }
 
-    public String getDeviceId() {
+    public String getSn() {
         return this.getConnection().channel().attr(AttributeKeys.DEVICE_ID).get();
     }
 

@@ -37,7 +37,7 @@ public class PubRel {
     public void processPubRel(MqttConnection connection, MqttMessage msg) {
         MqttMessageIdVariableHeader variableHeader = (MqttMessageIdVariableHeader) msg.variableHeader();
         int messageId = variableHeader.messageId();
-        log.debug("PUBREL - deviceId: {}, messageId: {}", connection.getDeviceId(), messageId);
+        log.debug("PUBREL - deviceId: {}, messageId: {}", connection.getSn(), messageId);
         connection.cancelDisposable(messageId);
         //发送qos2消息
         connection.getAndRemoveQos2Message(messageId).ifPresent(mqttPublishMessage -> {

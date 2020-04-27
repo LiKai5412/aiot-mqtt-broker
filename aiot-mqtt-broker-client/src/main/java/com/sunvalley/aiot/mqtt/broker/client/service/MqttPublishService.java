@@ -1,6 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.client.service;
 
-import com.sunvalley.aiot.mqtt.broker.client.bean.MqttPublishBo;
+import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttPublishBo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

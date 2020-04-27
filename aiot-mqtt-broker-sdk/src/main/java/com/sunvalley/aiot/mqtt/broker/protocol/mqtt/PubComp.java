@@ -20,7 +20,7 @@ public class PubComp {
     public void processPubComp(MqttConnection connection, MqttMessage msg) {
         MqttMessageIdVariableHeader variableHeader = (MqttMessageIdVariableHeader) msg.variableHeader();
         int messageId = variableHeader.messageId();
-        log.debug("PUBCOMP - deviceId: {}, messageId: {}", connection.getDeviceId(), messageId);
+        log.debug("PUBCOMP - deviceId: {}, messageId: {}", connection.getSn(), messageId);
         connection.removeQos2Message(messageId);
         connection.cancelDisposable(messageId);
     }

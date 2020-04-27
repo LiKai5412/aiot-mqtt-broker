@@ -18,7 +18,7 @@ public class PubRec {
     public void processPubRec(MqttConnection connection, MqttMessage msg) {
         MqttMessageIdVariableHeader variableHeader = (MqttMessageIdVariableHeader) msg.variableHeader();
         int messageId = variableHeader.messageId();
-        log.debug("PUBREC - deviceId: {}, messageId: {}", connection.getDeviceId(), messageId);
+        log.debug("PUBREC - deviceId: {}, messageId: {}", connection.getSn(), messageId);
         connection.cancelDisposable(messageId);
         //发送PUBREL
         sendPubRel(connection, messageId );

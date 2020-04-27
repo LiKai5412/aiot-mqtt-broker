@@ -10,6 +10,8 @@ import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
 import com.sunvalley.aiot.mqtt.broker.common.message.TransportMessage;
+import com.sunvalley.aiot.mqtt.broker.event.PublishEvent;
+import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessageType;
@@ -28,16 +30,19 @@ import java.util.Optional;
 @Slf4j
 public class Publish {
 
-    public MessageManager messageManager;
+    private MessageManager messageManager;
 
-    public TopicManager topicManager;
+    private TopicManager topicManager;
 
-    public ClusterManager clusterManager;
+    private ClusterManager clusterManager;
 
-    public Publish(MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager) {
+    private MqttEventPublisher mqttEventPublisher;
+
+    public Publish(MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager, MqttEventPublisher mqttEventPublisher) {
         this.messageManager = messageManager;
         this.topicManager = topicManager;
         this.clusterManager = clusterManager;
+        this.mqttEventPublisher = mqttEventPublisher;
     }
 
     public void processPublish(MqttConnection connection, MqttPublishMessage msg) {
@@ -77,6 +82,7 @@ public class Publish {
             default:
                 break;
         }
+        mqttEventPublisher.publishEvent(new PublishEvent(connection, ((long) (array.length))));
     }
 
     private void sendPubAckMessage(MqttConnection connection, int msgId) {

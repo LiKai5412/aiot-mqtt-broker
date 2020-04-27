@@ -21,7 +21,7 @@ public class PubAck {
         MqttMessageIdVariableHeader variableHeader = msg.variableHeader();
         int messageId = variableHeader.messageId();
         log.debug("PUBACK - deviceId: {}, messageId: {}",
-				connection.getDeviceId(), messageId);
+				connection.getSn(), messageId);
         connection.cancelDisposable(messageId);
     }
 

@@ -1,7 +1,0 @@
-otter:
-  server:
-    shortName: amb
-
-mqtt:
-  broker:
-    serverPort: 43011

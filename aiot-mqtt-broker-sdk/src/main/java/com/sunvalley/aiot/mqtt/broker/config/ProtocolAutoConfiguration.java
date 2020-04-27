@@ -5,6 +5,7 @@ import com.sunvalley.aiot.mqtt.broker.api.MessageManager;
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
+import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.ProtocolProcessor;
 import com.sunvalley.aiot.mqtt.broker.protocol.mqtt.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -58,8 +59,8 @@ public class ProtocolAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Connect connect() {
-        return new Connect(authService, channelManager, clusterManager, topicManager);
+    public Connect connect(MqttEventPublisher mqttEventPublisher) {
+        return new Connect(authService, channelManager, clusterManager, topicManager, mqttEventPublisher);
     }
 
     @Bean
@@ -76,8 +77,8 @@ public class ProtocolAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Publish publish() {
-        return new Publish(messageManager, topicManager, clusterManager);
+    public Publish publish(MqttEventPublisher mqttEventPublisher) {
+        return new Publish(messageManager, topicManager, clusterManager, mqttEventPublisher);
     }
 
     @Bean

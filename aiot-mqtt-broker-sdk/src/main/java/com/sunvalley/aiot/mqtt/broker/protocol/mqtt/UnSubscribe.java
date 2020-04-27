@@ -25,7 +25,7 @@ public class UnSubscribe {
 
 	public void processUnSubscribe(MqttConnection connection, MqttUnsubscribeMessage msg) {
 		List<String> topics = msg.payload().topics();
-		String deviceId = connection.getDeviceId();
+		String deviceId = connection.getSn();
 		topics.forEach(topic -> {
 			topicManager.deleteTopicConnection(topic, connection);
 			log.debug("UNSUBSCRIBE - deviceId: {}, topic: {}", deviceId, topic);
