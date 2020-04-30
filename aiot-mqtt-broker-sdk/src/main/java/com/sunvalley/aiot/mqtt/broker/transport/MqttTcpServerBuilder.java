@@ -5,6 +5,7 @@ import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.NonClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
 import com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerProperties;
+import com.sunvalley.aiot.mqtt.broker.config.MqttTopicProperties;
 import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.ProtocolProcessor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class MqttTcpServerBuilder {
     private MessageManager messageManager;
     private ClusterManager clusterManager;
     private MqttEventPublisher mqttEventPublisher;
+    private MqttTopicProperties mqttTopicProperties;
 
     private MqttTcpServerBuilder() {
         this.mqttTcpServerProperties = new MqttTcpServerProperties();
@@ -39,8 +41,9 @@ public class MqttTcpServerBuilder {
         this.channelManager = new MemoryChannelManager();
         this.clusterManager = new NonClusterManager();
         this.messageManager = new MemoryMessageManager();
+        this.mqttTopicProperties = new MqttTopicProperties();
         this.protocolProcessor = new ProtocolProcessor((user, pass) -> true,
-                channelManager, messageManager, topicManager, clusterManager, mqttEventPublisher);
+                channelManager, messageManager, topicManager, clusterManager, mqttEventPublisher, mqttTopicProperties);
         this.mqttEventPublisher = new MqttEventPublisher();
         this.connectionSubscriber = new ConnectionSubscriber(topicManager, protocolProcessor, mqttTcpServerProperties, mqttEventPublisher);
     }

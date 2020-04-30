@@ -176,6 +176,11 @@ public class MqttConnection implements Disposable {
         return getOutbound().sendObject(mqttSubAckMessage).then();
     }
 
+    public Mono<Void> sendFailureSubAck(int messageId, List<Integer> qos) {
+        MqttSubAckMessage mqttSubAckMessage = MqttMessageBuilder.buildFailureSubAck(messageId, qos);
+        return getOutbound().sendObject(mqttSubAckMessage).then();
+    }
+
     public Mono<Void> sendUnsubAck(int messageId) {
         MqttUnsubAckMessage mqttUnsubAckMessage = MqttMessageBuilder.buildUnsubAck(messageId);
         return getOutbound().sendObject(mqttUnsubAckMessage).then();

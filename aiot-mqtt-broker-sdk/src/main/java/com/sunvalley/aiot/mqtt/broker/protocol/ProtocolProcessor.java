@@ -6,6 +6,7 @@ import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
+import com.sunvalley.aiot.mqtt.broker.config.MqttTopicProperties;
 import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.mqtt.*;
 import io.netty.handler.codec.mqtt.*;
@@ -50,11 +51,11 @@ public class ProtocolProcessor {
     private MqttEventPublisher mqttEventPublisher;
 
     public ProtocolProcessor(){
-
     }
 
     public ProtocolProcessor(IAuthService authService, ChannelManager channelManager,
-                             MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager, MqttEventPublisher mqttEventPublisher) {
+                             MessageManager messageManager, TopicManager topicManager,
+                             ClusterManager clusterManager, MqttEventPublisher mqttEventPublisher, MqttTopicProperties mqttTopicProperties) {
         this.authService = authService;
         this.channelManager = channelManager;
         this.topicManager = topicManager;
@@ -67,7 +68,7 @@ public class ProtocolProcessor {
         this.pubRec = new PubRec();
         this.pubRel = new PubRel(topicManager, clusterManager);
         this.pubComp = new PubComp();
-        this.subscribe = new Subscribe(topicManager, messageManager);
+        this.subscribe = new Subscribe(topicManager, messageManager, mqttTopicProperties);
         this.unSubscribe = new UnSubscribe(topicManager);
     }
 

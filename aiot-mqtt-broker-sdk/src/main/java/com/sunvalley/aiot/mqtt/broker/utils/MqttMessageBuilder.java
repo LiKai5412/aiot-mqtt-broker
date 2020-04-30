@@ -44,10 +44,18 @@ public class MqttMessageBuilder {
     }
 
     public static MqttSubAckMessage buildSubAck(int messageId, List<Integer> qos) {
-        MqttFixedHeader mqttFixedHeader = new MqttFixedHeader(MqttMessageType.SUBACK, false, MqttQoS.AT_MOST_ONCE, false, 0);
+        return buildSubAck(messageId, qos, MqttQoS.AT_MOST_ONCE);
+    }
+
+    public static MqttSubAckMessage buildSubAck(int messageId, List<Integer> qos, MqttQoS mqttQoS) {
+        MqttFixedHeader mqttFixedHeader = new MqttFixedHeader(MqttMessageType.SUBACK, false, mqttQoS, false, 0);
         MqttMessageIdVariableHeader variableHeader = MqttMessageIdVariableHeader.from(messageId);
         MqttSubAckPayload payload = new MqttSubAckPayload(qos);
         return new MqttSubAckMessage(mqttFixedHeader, variableHeader, payload);
+    }
+
+    public static MqttSubAckMessage buildFailureSubAck(int messageId, List<Integer> qos) {
+        return buildSubAck(messageId, qos, MqttQoS.FAILURE);
     }
 
     public static MqttUnsubAckMessage buildUnsubAck(int messageId) {

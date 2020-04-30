@@ -9,6 +9,7 @@ import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.protocol.ProtocolProcessor;
 import com.sunvalley.aiot.mqtt.broker.protocol.mqtt.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/3/12
  */
 @Configuration
+@EnableConfigurationProperties(MqttTopicProperties.class)
 public class ProtocolAutoConfiguration {
 
     private final ChannelManager channelManager;
@@ -37,7 +39,7 @@ public class ProtocolAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ProtocolProcessor protocolProcess(Connect connect, DisConnect disConnect, PingResp pingResp, Publish publish, PubAck pubAck,
-                                             PubRec pubRec, PubRel pubRel, PubComp pubComp, Subscribe subscribe, UnSubscribe unSubscribe) {
+                                             PubRec pubRec, PubRel pubRel, PubComp pubComp, Subscribe subscribe, UnSubscribe unSubscribe, MqttTopicProperties mqttTopicProperties) {
         ProtocolProcessor protocolProcessor = new ProtocolProcessor();
         PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
         propertyMapper.from(authService).to(protocolProcessor::setAuthService);
@@ -107,8 +109,8 @@ public class ProtocolAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Subscribe subscribe() {
-        return new Subscribe(topicManager, messageManager);
+    public Subscribe subscribe(MqttTopicProperties mqttTopicProperties) {
+        return new Subscribe(topicManager, messageManager, mqttTopicProperties);
     }
 
     @Bean
