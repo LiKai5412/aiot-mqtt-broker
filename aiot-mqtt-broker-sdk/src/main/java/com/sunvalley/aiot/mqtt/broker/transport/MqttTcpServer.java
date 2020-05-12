@@ -12,6 +12,7 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.UnicastProcessor;
 import reactor.netty.DisposableServer;
@@ -32,6 +33,7 @@ public class MqttTcpServer implements AiotTcpServer {
     private TopicManager topicManager;
     private ChannelManager channelManager;
     private MessageManager messageManager;
+    private FluxSink<MqttConnection> fluxSink;
 
     public MqttTcpServer(MqttTcpServerProperties mqttTcpServerProperties,
                          TopicManager topicManager, ChannelManager channelManager, ConnectionSubscriber connectionSubscriber, MessageManager messageManager) {
@@ -39,6 +41,7 @@ public class MqttTcpServer implements AiotTcpServer {
         this.topicManager = topicManager;
         this.channelManager = channelManager;
         unicastProcessor = UnicastProcessor.create();
+        fluxSink = unicastProcessor.sink();
         unicastProcessor.subscribe(connectionSubscriber);
         this.messageManager = messageManager;
     }
@@ -50,7 +53,7 @@ public class MqttTcpServer implements AiotTcpServer {
         return buildServer()
                 .doOnConnection(connection -> {
                     getHandlers().forEach(connection::addHandlerLast);
-                    unicastProcessor.onNext(new MqttConnection(connection, topicManager, channelManager, messageManager));
+                    fluxSink.next(new MqttConnection(connection, topicManager, channelManager, messageManager));
                 })
                 .bind().doOnError(mqttTcpServerProperties.getThrowableConsumer());
     }

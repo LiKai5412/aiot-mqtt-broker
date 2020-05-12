@@ -1,0 +1,20 @@
+vertx:
+  kafka:
+    bootstrapServer: 10.20.0.92:9092
+
+jasypt:
+  encryptor:
+    password: aiot-sunvalley
+
+mqtt:
+  tcp-server:
+    ip: localhost
+    port: 8088
+    heart-in-second: 60
+    tls: true
+    log: true
+  topic:
+    prefix-paths:
+      - iot/get/
+      - iot/update/
+debug: true

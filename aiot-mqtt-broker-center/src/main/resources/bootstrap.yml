@@ -1,0 +1,8 @@
+server:
+  port: 43010
+
+spring:
+  application:
+    name: "@artifactId@"
+  profiles:
+    active: "@activatedProfile@"

@@ -13,6 +13,8 @@ public interface AttributeKeys {
 
     AttributeKey<String> DEVICE_ID = AttributeKey.valueOf("device_id");
 
+    AttributeKey<String> PRODUCT_KEY = AttributeKey.valueOf("product_key");
+
     AttributeKey<MqttPublishMessage> WILL_MESSAGE = AttributeKey.valueOf("WILL_MESSAGE");
 
 }

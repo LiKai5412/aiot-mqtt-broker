@@ -11,7 +11,6 @@ import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.common.auth.IAuthService;
 import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
 import com.sunvalley.aiot.mqtt.broker.event.ConnEvent;
-import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;
 import com.sunvalley.aiot.mqtt.broker.event.pulisher.MqttEventPublisher;
 import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.aiot.mqtt.broker.utils.MqttMessageBuilder;
@@ -21,7 +20,6 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import reactor.core.Disposable;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,10 +73,10 @@ public class Connect {
             return false;
         }
         // 用户名和密码验证, 这里要求客户端连接时必须提供用户名和密码, 不管是否设置用户名标志和密码标志为1, 此处没有参考标准协议实现
-        String username = msg.payload().userName();
+        String productKey = msg.payload().userName();
         String password = msg.payload().passwordInBytes() == null ? null : new String(msg.payload().passwordInBytes(), CharsetUtil.UTF_8);
         String deviceId = msg.payload().clientIdentifier();
-        if (!authService.checkValid(deviceId, username, password)) {
+        if (!authService.checkValid(deviceId, productKey, password)) {
             connection.sendConnAckMessage(MqttConnectReturnCode.CONNECTION_REFUSED_BAD_USER_NAME_OR_PASSWORD, false).subscribe();
             return false;
         }
@@ -121,6 +119,8 @@ public class Connect {
                 .ifPresent(Disposable::dispose);
         // 将deviceId存储到channel的map中
         connection.getConnection().channel().attr(AttributeKeys.DEVICE_ID).set(deviceId);
+        // 将productKey存储到channel的map中
+        connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).set(productKey);
         //返回accept
         connection.sendConnAckMessage(MqttConnectReturnCode.CONNECTION_ACCEPTED, sessionPresent && !cleanSession).subscribe();
         log.debug("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
