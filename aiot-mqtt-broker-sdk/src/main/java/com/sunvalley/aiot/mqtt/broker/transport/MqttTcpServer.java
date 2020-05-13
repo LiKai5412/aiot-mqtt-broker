@@ -63,7 +63,7 @@ public class MqttTcpServer implements AiotTcpServer {
                 mqttTcpServerProperties.getWorkerNum(), true);
         TcpServer server = TcpServer.create()
                 .port(mqttTcpServerProperties.getPort())
-                .wiretap(mqttTcpServerProperties.isLog())
+                .wiretap(mqttTcpServerProperties.isPrintLog())
                 .host(mqttTcpServerProperties.getIp())
                 .runOn(loop)
                 .selectorOption(ChannelOption.SO_BACKLOG, mqttTcpServerProperties.getBacklog())

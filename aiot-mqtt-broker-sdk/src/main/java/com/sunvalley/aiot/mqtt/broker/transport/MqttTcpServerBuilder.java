@@ -59,7 +59,7 @@ public class MqttTcpServerBuilder {
     }
 
     public MqttTcpServerBuilder log(boolean log) {
-        mqttTcpServerProperties.setLog(log);
+        mqttTcpServerProperties.setPrintLog(log);
         return this;
     }
 

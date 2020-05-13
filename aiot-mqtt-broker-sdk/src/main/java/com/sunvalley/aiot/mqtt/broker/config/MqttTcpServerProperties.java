@@ -1,8 +1,8 @@
 package com.sunvalley.aiot.mqtt.broker.config;
 
-import io.netty.channel.ChannelOption;
 import io.netty.util.NettyRuntime;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Objects;
@@ -13,6 +13,7 @@ import java.util.function.Consumer;
  */
 @Data
 @ConfigurationProperties(prefix = "mqtt.tcp-server")
+@Slf4j
 public class MqttTcpServerProperties {
 
     private String ip;
@@ -23,7 +24,7 @@ public class MqttTcpServerProperties {
 
     private int heartInSecond = 60;
 
-    private boolean log;
+    private boolean printLog;
 
     private boolean tls;
 
@@ -64,6 +65,7 @@ public class MqttTcpServerProperties {
     private boolean reuseAddr = false;
 
     private Consumer<Throwable> throwableConsumer = throwable -> {
+        log.error(throwable.getMessage(), throwable);
     };
 
 
