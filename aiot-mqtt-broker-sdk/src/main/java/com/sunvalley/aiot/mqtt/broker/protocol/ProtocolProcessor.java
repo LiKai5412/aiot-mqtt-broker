@@ -76,7 +76,9 @@ public class ProtocolProcessor {
         log.debug("accept message connection {} info{}", connection.getConnection(), message);
         switch (message.fixedHeader().messageType()) {
             case CONNECT:
-                connect.processConnect(connection, (MqttConnectMessage) message);
+                if(message instanceof  MqttConnectMessage) {
+                    connect.processConnect(connection, (MqttConnectMessage) message);
+                }
                 break;
             case PUBLISH:
                 publish.processPublish(connection, (MqttPublishMessage) message);
