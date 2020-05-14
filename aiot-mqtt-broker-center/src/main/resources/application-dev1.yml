@@ -9,7 +9,7 @@ jasypt:
 mqtt:
   tcp-server:
     ip: 0.0.0.0
-    port: 54120
+    port: 9901
     heart-in-second: 60
     tls: true
     log: true
