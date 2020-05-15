@@ -64,6 +64,11 @@
             <artifactId>guava</artifactId>
             <version>25.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>com.sunvalley</groupId>
+            <artifactId>otter-framework-kafka</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,7 +1,3 @@
-vertx:
-  kafka:
-    bootstrapServer: 10.20.0.92:9092
-
 jasypt:
   encryptor:
     password: aiot-sunvalley
@@ -13,8 +9,19 @@ mqtt:
     heart-in-second: 60
     tls: true
     log: true
+    node-id: 1
+    kafka-cluster-topic: mqtt.internal.topic.dev1
   topic:
     prefix-paths:
       - iot/get/
       - iot/update/
+      -
+
 debug: true
+
+spring:
+  kafka:
+    bootstrap-servers: 10.20.0.92:9092
+    consumer:
+      group-id: ${spring.application.name}_${mqtt.tcp-server.node-id}
+      auto-offset-reset: latest

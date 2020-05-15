@@ -15,5 +15,5 @@ public interface ClusterManager {
      * 接收集群间内部消息
      * @param objs
      */
-    void receiveInternalMessage(Object ... objects);
+    void receiveInternalMessage(InternalMessage internalMessage);
 }

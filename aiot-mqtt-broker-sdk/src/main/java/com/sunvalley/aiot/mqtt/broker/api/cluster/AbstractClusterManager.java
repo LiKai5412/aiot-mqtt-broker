@@ -20,7 +20,7 @@ public abstract class AbstractClusterManager implements ClusterManager {
     }
 
     @Override
-    public void receiveInternalMessage(Object... objects) {
+    public void receiveInternalMessage(InternalMessage internalMessage) {
         return;
     }
 

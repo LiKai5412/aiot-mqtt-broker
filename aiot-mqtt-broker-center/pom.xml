@@ -43,6 +43,10 @@
             <artifactId>aiot-token-client</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sunvalley</groupId>
+            <artifactId>otter-framework-kafka</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

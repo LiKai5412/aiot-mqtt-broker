@@ -64,6 +64,10 @@ public class MqttTcpServerProperties {
 
     private boolean reuseAddr = false;
 
+    private int nodeId;
+
+    private String kafkaClusterTopic;
+
     private Consumer<Throwable> throwableConsumer = throwable -> {
         log.error(throwable.getMessage(), throwable);
     };

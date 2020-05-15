@@ -55,7 +55,7 @@ public class MqttTcpServerAutoConfiguration{
 
     @Bean
     @ConditionalOnMissingBean
-    public ClusterManager clusterManager() {
+    public ClusterManager clusterManager(MqttTcpServerProperties mqttTcpServerProperties) {
         return new NonClusterManager();
     }
 
