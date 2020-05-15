@@ -15,7 +15,6 @@ mqtt:
     prefix-paths:
       - iot/get/
       - iot/update/
-      -
 
 debug: true
 
