@@ -133,13 +133,13 @@ public class TopicMap<V> {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         TopicMap topicMap = new TopicMap();
         topicMap.putData(List.of("1", "2", "3").toArray(String[]::new), "a");
         topicMap.putData(List.of("4", "5", "6").toArray(String[]::new), "b");
         topicMap.putData(List.of("7", "8", "9").toArray(String[]::new), "c");
         topicMap.putData(List.of("3", "2", "3").toArray(String[]::new), "d");
         topicMap.getData(List.of("#", "2", "3").toArray(String[]::new)).forEach(o -> System.out.println(o));
-    }
+    }*/
 
 }

@@ -64,4 +64,10 @@ public class MqttTcpServerAutoConfiguration{
     public MqttEventPublisher mqttEventPublisher(){
         return new MqttEventPublisher();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MqttKafkaTopicProperties mqttKafkaTopicProperties(){
+        return new MqttKafkaTopicProperties();
+    }
 }

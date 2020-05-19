@@ -1,6 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.client.service;
 
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttPublishBo;
+import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttMessageBo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,5 +14,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface MqttPublishService {
 
     @PostMapping("pub")
-    void publish(@Validated MqttPublishBo publish);
+    void publish(@Validated MqttMessageBo publish);
 }

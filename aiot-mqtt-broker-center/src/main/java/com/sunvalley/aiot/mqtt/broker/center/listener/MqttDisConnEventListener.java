@@ -2,15 +2,21 @@ package com.sunvalley.aiot.mqtt.broker.center.listener;
 
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.center.metric.MqttMetric;
+import com.sunvalley.aiot.mqtt.broker.client.annotation.KafkaPublishTopic;
 import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttJsonBo;
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttPublishBo;
+import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttMessageBo;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.MessageType;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.Method;
+import com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerProperties;
 import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;
 import com.sunvalley.aiot.mqtt.broker.event.listener.DisConnEventListener;
+import com.sunvalley.otter.framework.core.utils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.StringUtils;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 import static com.sunvalley.aiot.mqtt.broker.client.enumeration.LinkStatus.OFFLINE;
 
@@ -22,6 +28,9 @@ public class MqttDisConnEventListener extends DisConnEventListener {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
+    @KafkaPublishTopic
+    private String kafkaPublishTopic;
+
     @Override
     public void onApplicationEvent(DisConnEvent disConnEvent) {
         //发送kafka
@@ -31,11 +40,14 @@ public class MqttDisConnEventListener extends DisConnEventListener {
         if(StringUtils.isEmpty(sn)){
             return;
         }
+        Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
-                .state(MqttJsonBo.State.builder().build().addReportedStatus("online", OFFLINE.value())).build();
-        MqttPublishBo model = MqttPublishBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
+                .state(Map.of(OFFLINE.name(), OFFLINE.value()))
+                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(OFFLINE.name(), "timestamp", timestamp))
+                .timestamp(timestamp).build();
+        MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.decrementTotalConnectionCount();
         MqttMetric.removePublishBytesBySn(sn);
-        //kafkaTemplate.send(KafKaTopicConst.publishTopic, model);
+        kafkaTemplate.send(kafkaPublishTopic, model);
     }
 }

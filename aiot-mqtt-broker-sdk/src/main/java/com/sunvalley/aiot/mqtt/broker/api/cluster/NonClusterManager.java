@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class NonClusterManager extends AbstractClusterManager {
 
     @Override
-    void doSend(InternalMessage internalMessage) {
+    protected void doSend(InternalMessage internalMessage) {
         return;
     }
 

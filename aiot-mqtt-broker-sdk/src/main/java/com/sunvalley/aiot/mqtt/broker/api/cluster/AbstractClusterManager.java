@@ -24,5 +24,5 @@ public abstract class AbstractClusterManager implements ClusterManager {
         return;
     }
 
-    abstract void doSend(InternalMessage internalMessage);
+    abstract protected void doSend(InternalMessage internalMessage);
 }

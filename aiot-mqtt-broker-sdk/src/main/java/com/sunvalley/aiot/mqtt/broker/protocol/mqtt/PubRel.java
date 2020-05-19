@@ -62,9 +62,9 @@ public class PubRel {
                                 conn.sendPublishMessageRetry(qos, retain,
                                         topicName, array).subscribe();
                             });
-                    InternalMessage internalMessage = InternalMessage.buildPubMessage(topicName,
+                    /*InternalMessage internalMessage = InternalMessage.buildPubMessage(topicName,
                             qos.value(), array, retain, dup);
-                    Mono.just(internalMessage).subscribe(clusterManager::sendInternalMessage);
+                    Mono.just(internalMessage).subscribe(clusterManager::sendInternalMessage);*/
                 });
     }
 }

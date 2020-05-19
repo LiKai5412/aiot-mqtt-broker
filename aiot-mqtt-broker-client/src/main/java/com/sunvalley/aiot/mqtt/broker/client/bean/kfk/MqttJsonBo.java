@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,64 +18,37 @@ import java.util.Map;
 @Builder
 public class MqttJsonBo {
     private Method method;
-    private State state;
+    private Map<String, Object> state;
+    private Map<String, Object> command;
     private MetaData metaData;
     private Long timestamp;
 
     @Getter
     @Builder
-    public static class State {
-        private Map<String, Object> reported;
-        private Map<String, Object> desired;
-
-        public State addReportedStatus(String statusName, Object value) {
-            if (reported == null) {
-                reported = new HashMap<>();
-            }
-            reported.put(statusName, value);
-            return this;
-        }
-        public State addDesiredStatus(String statusName, Object value) {
-            if (desired == null) {
-                desired = new HashMap<>();
-            }
-            desired.put(statusName, value);
-            return this;
-        }
-    }
-
-    @Getter
-    @Builder
     public static class MetaData {
-        private Map<String, Map<String, Object>> reported;
-        private Map<String, Map<String, Object>> desired;
+        private Map<String, Map<String, Object>> state;
+        private Map<String, Map<String, Object>> command;
 
-        public MetaData addReportedMetaData(String statusName, String metaDataName, Object value) {
-            if (reported == null) {
-                reported = new HashMap<>();
+        public MetaData addStateMetaData(String statusName, String metaDataName, Object value) {
+            if (state == null) {
+                state = new HashMap<>();
             }
-            Map<String, Object> metaDataMap = new HashMap<>();
-            metaDataMap.put(metaDataName, value);
-            reported.put(statusName, metaDataMap);
+            addMetaData(state, statusName, metaDataName, value);
             return this;
         }
 
-        public MetaData addDesiredMetaData(String statusName, String metaDataName, Object value) {
-            if (desired == null) {
-                desired = new HashMap<>();
+        public MetaData addCommandMetaData(String statusName, String metaDataName, Object value) {
+            if (command == null) {
+                command = new HashMap<>();
             }
+            addMetaData(command, statusName, metaDataName, value);
+            return this;
+        }
+
+        private void addMetaData(Map<String, Map<String, Object>> map, String statusName, String metaDataName, Object value) {
             Map<String, Object> metaDataMap = new HashMap<>();
             metaDataMap.put(metaDataName, value);
-            desired.put(statusName, metaDataMap);
-            return this;
+            map.put(statusName, metaDataMap);
         }
     }
-
-   /* public static void main(String[] args) {
-        State state = State.builder().build().addDesiredStatus("color", "red").addReportedStatus("color", "blue");
-        MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE).state(state).
-                timestamp(54123L).metaData(MetaData.builder().build().addDesiredMetaData("color", "timestamp", 1234567890L)
-        .addReportedMetaData("color", "timestamp", 5412L)).build();
-        System.out.println(UtilJson.toJson(mqttJsonBo));
-    }*/
 }

@@ -63,7 +63,7 @@ public class ProtocolProcessor {
         this.connect = new Connect(authService, channelManager, clusterManager, topicManager, mqttEventPublisher);
         this.pingResp = new PingResp();
         this.disConnect = new DisConnect();
-        this.publish = new Publish(messageManager, topicManager, clusterManager, mqttEventPublisher);
+        this.publish = new Publish(messageManager, topicManager, mqttEventPublisher);
         this.pubAck = new PubAck();
         this.pubRec = new PubRec();
         this.pubRel = new PubRel(topicManager, clusterManager);

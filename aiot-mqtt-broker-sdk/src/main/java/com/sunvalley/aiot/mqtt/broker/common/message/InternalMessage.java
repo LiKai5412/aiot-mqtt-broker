@@ -30,6 +30,8 @@ public class InternalMessage {
 
     private String deviceId;
 
+    private String productKey;
+
     private MessageType messageType;
 
     public static InternalMessage buildPubMessage(String topic, int mqttQoS, byte[] messageBytes, boolean retain, boolean dup) {

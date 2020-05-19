@@ -66,8 +66,6 @@ public class MqttTcpServerProperties {
 
     private int nodeId;
 
-    private String kafkaClusterTopic;
-
     private Consumer<Throwable> throwableConsumer = throwable -> {
         log.error(throwable.getMessage(), throwable);
     };

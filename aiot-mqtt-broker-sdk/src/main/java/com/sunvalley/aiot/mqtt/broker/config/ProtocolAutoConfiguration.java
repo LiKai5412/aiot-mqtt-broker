@@ -80,7 +80,7 @@ public class ProtocolAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public Publish publish(MqttEventPublisher mqttEventPublisher) {
-        return new Publish(messageManager, topicManager, clusterManager, mqttEventPublisher);
+        return new Publish(messageManager, topicManager, mqttEventPublisher);
     }
 
     @Bean

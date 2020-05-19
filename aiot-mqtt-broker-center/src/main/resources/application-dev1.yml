@@ -5,12 +5,15 @@ jasypt:
 mqtt:
   tcp-server:
     ip: 0.0.0.0
-    port: 9901
+    port: 9903
     heart-in-second: 60
     tls: true
     log: true
-    node-id: 1
-    kafka-cluster-topic: mqtt.internal.topic.dev1
+    node-id: 2
+  kafka:
+    internal-topic: mqtt.internal.topic.local
+    publish-topic: mqtt.publish.topic.local
+    subscribe-topic: mqtt.subscribe.topic.local
   topic:
     prefix-paths:
       - iot/get/

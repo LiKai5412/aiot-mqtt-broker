@@ -4,8 +4,10 @@ import com.sunvalley.aiot.mqtt.broker.api.ChannelManager;
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
 import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
+import com.sunvalley.aiot.mqtt.broker.config.MqttKafkaTopicProperties;
 import com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerProperties;
 import io.netty.handler.codec.mqtt.MqttQoS;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,6 +20,7 @@ import java.util.List;
  * @date 2020/1/16
  */
 @Slf4j
+@Data
 public class KafkaClusterManager extends AbstractClusterManager {
 
     private KafkaTemplate<String, Object> kafkaTemplate;
@@ -28,8 +31,10 @@ public class KafkaClusterManager extends AbstractClusterManager {
 
     private TopicManager topicManager;
 
+    private MqttKafkaTopicProperties mqttKafkaTopicProperties;
+
     public KafkaClusterManager(MqttTcpServerProperties mqttTcpServerProperties, KafkaTemplate<String, Object> kafkaTemplate,
-                               ChannelManager channelManager, TopicManager topicManager) {
+                               ChannelManager channelManager, TopicManager topicManager, MqttKafkaTopicProperties mqttKafkaTopicProperties) {
         this.kafkaTemplate = kafkaTemplate;
         if (mqttTcpServerProperties.getNodeId() == 0) {
             setNodeId("0");
@@ -39,10 +44,11 @@ public class KafkaClusterManager extends AbstractClusterManager {
         this.mqttTcpServerProperties = mqttTcpServerProperties;
         this.channelManager = channelManager;
         this.topicManager = topicManager;
+        this.mqttKafkaTopicProperties = mqttKafkaTopicProperties;
     }
 
     @Override
-    @KafkaListener(topics = "${mqtt.tcp-server.kafka-cluster-topic}")
+    @KafkaListener(topics = "${mqtt.kafka.internal-topic}")
     public void receiveInternalMessage(InternalMessage internalMessage) {
         //丢弃自己发送的消息
         if (getNodeId().equalsIgnoreCase(internalMessage.getNodeId())) {
@@ -70,8 +76,8 @@ public class KafkaClusterManager extends AbstractClusterManager {
     }
 
     @Override
-    void doSend(InternalMessage internalMessage) {
+    protected void doSend(InternalMessage internalMessage) {
         internalMessage.setNodeId(getNodeId());
-        kafkaTemplate.send(mqttTcpServerProperties.getKafkaClusterTopic(), internalMessage);
+        kafkaTemplate.send(mqttKafkaTopicProperties.getInternalTopic(), internalMessage);
     }
 }

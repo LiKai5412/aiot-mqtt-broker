@@ -11,11 +11,12 @@ import org.springframework.context.ApplicationEvent;
  */
 @Data
 public class PublishEvent extends ApplicationEvent {
+    private MqttPublishMessage msg;
+    private byte[] array;
 
-    private Long byteLength;
-
-    public PublishEvent(MqttConnection connection, Long byteLength) {
+    public PublishEvent(MqttConnection connection, MqttPublishMessage msg, byte[] array) {
         super(connection);
-        this.byteLength = byteLength;
+        this.msg = msg;
+        this.array = array;
     }
 }

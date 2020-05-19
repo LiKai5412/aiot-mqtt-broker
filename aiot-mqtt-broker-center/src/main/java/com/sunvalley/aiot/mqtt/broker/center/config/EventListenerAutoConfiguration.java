@@ -1,9 +1,12 @@
 package com.sunvalley.aiot.mqtt.broker.center.config;
 
+import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
+import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
 import com.sunvalley.aiot.mqtt.broker.center.listener.MqttConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.center.listener.MqttDisConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.center.listener.MqttIdleEventListener;
 import com.sunvalley.aiot.mqtt.broker.center.listener.MqttPublishEventListener;
+import com.sunvalley.aiot.mqtt.broker.center.listener.kfk.BrokerListener;
 import com.sunvalley.aiot.mqtt.broker.event.listener.ConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.event.listener.DisConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.event.listener.IdleEventListener;
@@ -41,5 +44,10 @@ public class EventListenerAutoConfiguration {
     @ConditionalOnMissingBean(PublishEventListener.class)
     public PublishEventListener publishEventListener(){
         return new MqttPublishEventListener();
+    }
+
+    @Bean
+    public BrokerListener brokerListener(TopicManager topicManager){
+        return new BrokerListener(topicManager);
     }
 }

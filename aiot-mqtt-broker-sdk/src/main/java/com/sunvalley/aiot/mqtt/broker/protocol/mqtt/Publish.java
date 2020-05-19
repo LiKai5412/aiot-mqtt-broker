@@ -34,14 +34,11 @@ public class Publish {
 
     private TopicManager topicManager;
 
-    private ClusterManager clusterManager;
-
     private MqttEventPublisher mqttEventPublisher;
 
-    public Publish(MessageManager messageManager, TopicManager topicManager, ClusterManager clusterManager, MqttEventPublisher mqttEventPublisher) {
+    public Publish(MessageManager messageManager, TopicManager topicManager, MqttEventPublisher mqttEventPublisher) {
         this.messageManager = messageManager;
         this.topicManager = topicManager;
-        this.clusterManager = clusterManager;
         this.mqttEventPublisher = mqttEventPublisher;
     }
 
@@ -82,7 +79,7 @@ public class Publish {
             default:
                 break;
         }
-        mqttEventPublisher.publishEvent(new PublishEvent(connection, ((long) (array.length))));
+        mqttEventPublisher.publishEvent(new PublishEvent(connection, msg, array));
     }
 
     private void sendPubAckMessage(MqttConnection connection, int msgId) {
@@ -98,7 +95,6 @@ public class Publish {
                                 conn.sendPublishMessage(header.qosLevel(), header.isRetain(),
                                         variableHeader.topicName(), array).subscribe();
                             });
-                    sendInternalMessage(msg, array);
                 });
     }
 
@@ -111,14 +107,9 @@ public class Publish {
                                 conn.sendPublishMessageRetry(header.qosLevel(), header.isRetain(),
                                         variableHeader.topicName(), array).subscribe();
                             });
-                    sendInternalMessage(msg, array);
                 });
     }
 
-    //通知集群其它节点发布消息
-    private void sendInternalMessage(MqttPublishMessage msg, byte[] array) {
-        Mono.just(createInternalMessage(msg, array)).subscribe(clusterManager::sendInternalMessage);
-    }
 
     private void sendPubRecMessageRetry(MqttConnection connection, MqttPublishVariableHeader variableHeader) {
         connection.sendPubRecMessageRetry(variableHeader.packetId()).subscribe();
@@ -128,13 +119,6 @@ public class Publish {
         byte[] bytes = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(bytes);
         return bytes;
-    }
-
-    private InternalMessage createInternalMessage(MqttPublishMessage msg, byte[] array) {
-        MqttFixedHeader header = msg.fixedHeader();
-        MqttPublishVariableHeader variableHeader = msg.variableHeader();
-        return InternalMessage.buildPubMessage(variableHeader.topicName(), header.qosLevel().value(),
-                array, header.isRetain(), header.isDup());
     }
 
 }
