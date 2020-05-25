@@ -1,0 +1,8 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.sunvalley.aiot.mqtt.broker.client.config.MqttKafkaTopicAutoConfiguration
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.sunvalley.aiot.mqtt.broker.client.config.MqttBrokerClientAutoConfiguration
+
+#org.springframework.boot.env.EnvironmentPostProcessor=\
+#  com.sunvalley.aiot.mqtt.broker.client.config.MqttKafkaTopicEnvironment
