@@ -33,19 +33,4 @@ public class MqttKafkaTopicEnvironment implements EnvironmentAware {
         MapPropertySource mapPropertySource = new MapPropertySource("mqttKafkaTopicConfig", mqttKafkaTopicMap);
         env.getPropertySources().addLast(mapPropertySource);
     }
-
-    /*@Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        String[] profiles = environment.getActiveProfiles();
-        String profile = DEV_1;
-        if (profiles != null && profiles.length > 0) {
-            profile = profiles[0];
-        }
-        Map<String, Object> mqttKafkaTopicMap = new HashMap<>(3);
-        mqttKafkaTopicMap.put("mqtt.kafka.internal-topic", KafKaTopicConst.INTERNAL_TOPIC.concat("." + profile));
-        mqttKafkaTopicMap.put("mqtt.kafka.publish-topic", KafKaTopicConst.PUBLISH_TOPIC.concat("." + profile));
-        mqttKafkaTopicMap.put("mqtt.kafka.subscribe-topic", KafKaTopicConst.SUBSCRIBE_TOPIC.concat("." + profile));
-        MapPropertySource mapPropertySource = new MapPropertySource("mqttKafkaTopicConfig", mqttKafkaTopicMap);
-        environment.getPropertySources().addLast(mapPropertySource);
-    }*/
 }

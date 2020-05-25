@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Value("${mqtt.kafka.subscribe-topic}")
-public @interface KafkaSubscribeTopic {
+@Value("${mqtt.kafka.internal-topic}")
+public @interface KafkaInternalTopic {
 }

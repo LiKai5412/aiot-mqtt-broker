@@ -36,11 +36,7 @@ public class KafkaClusterManager extends AbstractClusterManager {
     public KafkaClusterManager(MqttTcpServerProperties mqttTcpServerProperties, KafkaTemplate<String, Object> kafkaTemplate,
                                ChannelManager channelManager, TopicManager topicManager, MqttKafkaTopicProperties mqttKafkaTopicProperties) {
         this.kafkaTemplate = kafkaTemplate;
-        if (mqttTcpServerProperties.getNodeId() == 0) {
-            setNodeId("0");
-        } else {
-            setNodeId(String.valueOf(mqttTcpServerProperties.getNodeId()));
-        }
+        setNodeId(String.valueOf(mqttTcpServerProperties.getNodeId()));
         this.mqttTcpServerProperties = mqttTcpServerProperties;
         this.channelManager = channelManager;
         this.topicManager = topicManager;
