@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import static com.sunvalley.aiot.mqtt.broker.client.enumeration.LinkStatus.OFFLINE;
+import static com.sunvalley.aiot.mqtt.broker.client.enumeration.LinkStatus.X_OFFLINE;
 
 /**
  * @author kai.li
@@ -41,8 +41,8 @@ public class MqttDisConnEventListener extends DisConnEventListener {
         }
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
-                .state(Map.of(OFFLINE.name(), OFFLINE.value()))
-                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(OFFLINE.name(), "timestamp", timestamp))
+                .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
+                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp))
                 .timestamp(timestamp).build();
         MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.decrementTotalConnectionCount();

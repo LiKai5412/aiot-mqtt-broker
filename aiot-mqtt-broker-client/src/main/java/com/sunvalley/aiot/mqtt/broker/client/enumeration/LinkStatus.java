@@ -11,12 +11,12 @@ public enum LinkStatus {
     /**
      * 在线
      */
-    ONLINE(0),
+    X_ONLINE(0),
 
     /**
      * 离线
      */
-    OFFLINE(1);
+    X_OFFLINE(1);
 
     LinkStatus(int status) {
         this.online = status;
