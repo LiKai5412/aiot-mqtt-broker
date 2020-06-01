@@ -1,7 +1,8 @@
-package com.sunvalley.aiot.mqtt.broker.center.metric;
+package com.sunvalley.aiot.mqtt.broker.metric;
 
 import com.google.common.collect.Maps;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.LongAdder;
  * @author kai.li
  * @date 2020/4/27
  */
+
 @RestControllerEndpoint(id = "mqttMetric")
 public class MqttMetric {
     private static LongAdder totalConnectionCount = new LongAdder();

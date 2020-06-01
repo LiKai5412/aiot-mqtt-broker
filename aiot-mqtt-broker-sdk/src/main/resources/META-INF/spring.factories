@@ -2,4 +2,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sunvalley.aiot.mqtt.broker.config.AuthAutoConfiguration,\
   com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerAutoConfiguration,\
   com.sunvalley.aiot.mqtt.broker.config.EventListenerAutoConfiguration,\
-  com.sunvalley.aiot.mqtt.broker.config.ProtocolAutoConfiguration
+  com.sunvalley.aiot.mqtt.broker.config.ProtocolAutoConfiguration,\
+  com.sunvalley.aiot.mqtt.broker.config.MetricAutoConfiguration

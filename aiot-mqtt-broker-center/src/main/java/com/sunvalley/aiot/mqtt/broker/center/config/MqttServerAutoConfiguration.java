@@ -1,6 +1,5 @@
 package com.sunvalley.aiot.mqtt.broker.center.config;
 
-import com.sunvalley.aiot.mqtt.broker.center.metric.MqttMetric;
 import com.sunvalley.aiot.mqtt.broker.center.service.MqttServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +13,5 @@ public class MqttServerAutoConfiguration {
     @Bean
     public MqttServer mqttServer(){
         return new MqttServer();
-    }
-
-    @Bean
-    public MqttMetric mqttMetric(){
-        return new MqttMetric();
     }
 }

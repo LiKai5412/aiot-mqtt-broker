@@ -21,7 +21,7 @@ public class BrokerService {
 
     /**
      * 断开指定设备mqtt连接
-     * @param 设备sn
+     * @param sn
      */
     public void disconnDeviceBySn(String sn){
         DisconnMessage disconnMessage = DisconnMessage.buildConnMessage(sn);

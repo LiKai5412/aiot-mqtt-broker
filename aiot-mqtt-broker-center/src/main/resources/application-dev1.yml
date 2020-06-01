@@ -10,10 +10,6 @@ mqtt:
     tls: true
     log: true
     node-id: 2
-#  kafka:
-#    internal-topic: mqtt.internal.topic.local
-#    publish-topic: mqtt.publish.topic.local
-#    subscribe-topic: mqtt.subscribe.topic.local
   topic:
     prefix-paths:
       - iot/get/
