@@ -23,7 +23,7 @@ public class MqttJsonBo {
     private MetaData metaData;
     private Long timestamp;
 
-    @Getter
+    @Data
     @Builder
     public static class MetaData {
         private Map<String, Map<String, Object>> state;
