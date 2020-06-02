@@ -21,7 +21,6 @@ public class MqttJsonBo {
     private Map<String, Object> state;
     private Map<String, Object> command;
     private MetaData metaData;
-    private Long timestamp;
 
     @Data
     @Builder
