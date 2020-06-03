@@ -38,8 +38,7 @@ public class MqttConnEventListener extends ConnEventListener {
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
                 .state(Map.of(X_ONLINE.name(), X_ONLINE.value()))
-                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_ONLINE.name(), "timestamp", timestamp))
-                .timestamp(timestamp).build();
+                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_ONLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.incrementTotalConnectionCount();
         kafkaTemplate.send(kafkaPublishTopic, model);

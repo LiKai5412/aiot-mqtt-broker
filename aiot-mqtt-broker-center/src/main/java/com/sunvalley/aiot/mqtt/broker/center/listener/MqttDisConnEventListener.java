@@ -36,14 +36,13 @@ public class MqttDisConnEventListener extends DisConnEventListener {
         MqttConnection connection = MqttConnection.class.cast(disConnEvent.getSource());
         String sn = connection.getSn();
         //如果没有sn则忽略此消息
-        if(StringUtils.isEmpty(sn)){
+        if (StringUtils.isEmpty(sn)) {
             return;
         }
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
                 .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
-                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp))
-                .timestamp(timestamp).build();
+                .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.decrementTotalConnectionCount();
         MqttMetric.removePublishBytesBySn(sn);
