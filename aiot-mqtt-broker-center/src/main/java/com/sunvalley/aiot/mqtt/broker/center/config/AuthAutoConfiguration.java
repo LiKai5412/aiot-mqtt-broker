@@ -5,6 +5,7 @@ import com.sunvalley.aiot.token.client.facade.DeviceTokenServiceFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +21,16 @@ public class AuthAutoConfiguration {
     @Autowired
     private DeviceTokenServiceFacade deviceTokenServiceFacade;
 
+    @Value("${skip.authentication:false}")
+    private boolean skipAuthentication;
+
     @Bean
     @ConditionalOnMissingBean
     public IAuthService authService(){
         return (productKey, password) ->{
+            if(skipAuthentication){
+                return true;
+            }
             if(StringUtils.isBlank(productKey)){
                 log.debug("ProductKey is blank");
                 return false;
@@ -32,8 +39,7 @@ public class AuthAutoConfiguration {
                 log.debug("Password is blank");
                 return false;
             }
-            return true;
-            //return deviceTokenServiceFacade.checkDeviceToken(password);
+            return deviceTokenServiceFacade.checkDeviceToken(password);
         };
     }
 }
