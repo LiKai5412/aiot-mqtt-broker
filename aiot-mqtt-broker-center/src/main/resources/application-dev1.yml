@@ -15,6 +15,9 @@ mqtt:
       - iot/get/
       - iot/update/
 
+skip:
+  authentication: true
+
 debug: true
 
 spring:
