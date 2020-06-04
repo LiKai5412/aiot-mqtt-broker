@@ -9,6 +9,7 @@ import com.sunvalley.aiot.mqtt.broker.client.enumeration.Method;
 import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;
 import com.sunvalley.aiot.mqtt.broker.event.listener.DisConnEventListener;
 import com.sunvalley.aiot.mqtt.broker.metric.MqttMetric;
+import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.otter.framework.core.utils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -40,10 +41,11 @@ public class MqttDisConnEventListener extends DisConnEventListener {
             return;
         }
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
+        String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
-        MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
+        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.decrementTotalConnectionCount();
         MqttMetric.removePublishBytesBySn(sn);
         kafkaTemplate.send(kafkaPublishTopic, model);
