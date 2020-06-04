@@ -8,6 +8,7 @@ import com.sunvalley.aiot.mqtt.broker.client.enumeration.MessageType;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.Method;
 import com.sunvalley.aiot.mqtt.broker.event.IdleEvent;
 import com.sunvalley.aiot.mqtt.broker.event.listener.IdleEventListener;
+import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.otter.framework.core.utils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -34,11 +35,12 @@ public class MqttIdleEventListener extends IdleEventListener {
         //发送kafka
         MqttConnection connection = MqttConnection.class.cast(idleEvent.getSource());
         String sn = connection.getSn();
+        String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
-        MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
+        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         kafkaTemplate.send(kafkaPublishTopic, model);
     }
 }
