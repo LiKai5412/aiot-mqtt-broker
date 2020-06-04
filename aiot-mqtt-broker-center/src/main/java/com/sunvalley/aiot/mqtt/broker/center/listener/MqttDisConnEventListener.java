@@ -40,7 +40,7 @@ public class MqttDisConnEventListener extends DisConnEventListener {
             return;
         }
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
-        MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
+        MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();

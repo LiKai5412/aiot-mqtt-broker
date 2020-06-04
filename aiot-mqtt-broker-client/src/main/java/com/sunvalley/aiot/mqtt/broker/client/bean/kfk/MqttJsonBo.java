@@ -17,7 +17,7 @@ import java.util.Map;
 @Data
 @Builder
 public class MqttJsonBo {
-    private Method method;
+    private int method;
     private Map<String, Object> state;
     private Map<String, Object> command;
     private MetaData metaData;

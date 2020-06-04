@@ -36,7 +36,7 @@ public class MqttConnEventListener extends ConnEventListener {
         MqttConnection connection = MqttConnection.class.cast(connEvent.getSource());
         String sn = connection.getSn();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
-        MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE)
+        MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_ONLINE.name(), X_ONLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_ONLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();

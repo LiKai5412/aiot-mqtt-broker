@@ -50,12 +50,12 @@ public class MqttMessageBo {
     @Getter
     private String payloadStr;
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().state(Map.of("color", "red"))
-                .command(Map.of("color", "blue")).method(Method.UPDATE)
-                .timestamp(54123L).metaData(MqttJsonBo.MetaData.builder().build().addCommandMetaData("color", "timestamp", 1234567890L)
+                .command(Map.of("color", "blue")).method(Method.UPDATE.getValue())
+                .metaData(MqttJsonBo.MetaData.builder().build().addCommandMetaData("color", "timestamp", 1234567890L)
                         .addStateMetaData("color", "timestamp", 5412L)).build();
         MqttMessageBo build = MqttMessageBo.builder().sn("5412").productKey("123456").payload(mqttJsonBo).timestamp(System.currentTimeMillis()).build();
         System.out.println(UtilJson.toJson(build));
-    }*/
+    }
 }

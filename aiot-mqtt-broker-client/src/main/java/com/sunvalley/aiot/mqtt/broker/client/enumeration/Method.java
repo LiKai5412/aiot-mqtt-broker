@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Method {
     GET("get", 0), CONTROL("control", 1),
-    DELETE("delete", 2), UPDATE("update", 3), REPLY("reply", 4);
+    DELETE("delete", 2), UPDATE("update", 3), REPLY("reply", 4), EVENT("event", 5);
 
     private String name;
     private int code;
