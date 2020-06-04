@@ -32,7 +32,7 @@ public class BrokerListener {
         }
         String mqttTopic = generateMqttTopic(mqttMessageBo);
         topicManager.getConnectionsByTopic(mqttTopic).forEach(connection -> {
-            connection.sendPublishMessage(MqttQoS.AT_MOST_ONCE, false, mqttTopic, mqttMessageBo.getPayLoadStr().getBytes());
+            connection.sendPublishMessage(MqttQoS.AT_MOST_ONCE, false, mqttTopic, mqttMessageBo.getPayLoadStr().getBytes()).subscribe();
         });
     }
 
