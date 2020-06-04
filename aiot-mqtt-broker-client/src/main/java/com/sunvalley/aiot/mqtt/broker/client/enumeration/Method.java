@@ -1,22 +1,22 @@
 package com.sunvalley.aiot.mqtt.broker.client.enumeration;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Method {
-    GET("get"), CONTROL("control"), DELETE("delete"), UPDATE("update"), REPLY("reply");
+    GET("get", 0), CONTROL("control", 1),
+    DELETE("delete", 2), UPDATE("update", 3), REPLY("reply", 4);
 
     private String name;
-    Method(String name){
+    private int code;
+
+    Method(String name, int code) {
         this.name = name;
+        this.code = code;
     }
 
-    /*@JsonValue
-    public String getValue() {
-        return name.toLowerCase();
-    }*/
-
-    @JsonCreator
-    public static Method get(String name){
-        return Method.valueOf(name.toUpperCase());
+    @JsonValue
+    public int getValue() {
+        return code;
     }
+
 }
