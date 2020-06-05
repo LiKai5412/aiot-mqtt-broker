@@ -19,6 +19,7 @@ import reactor.netty.NettyInbound;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 /**
@@ -52,8 +53,12 @@ public class ConnectionSubscriber implements Consumer<MqttConnection> {
                 .subscribe();
         // 设置close
         c.channel().attr(AttributeKeys.CLOSE_CONNECTION).set(disposable);
-        c.onReadIdle(mqttTcpServerProperties.getHeartInSecond() * 1000, () ->
-                mqttEventPublisher.publishEvent(new IdleEvent(connection)));
+        AtomicInteger time = new AtomicInteger(mqttTcpServerProperties.getIdleTime());
+        c.onReadIdle(mqttTcpServerProperties.getHeartInSecond() * 1000, () -> {
+            if (time.getAndDecrement() == 0) {
+                mqttEventPublisher.publishEvent(new IdleEvent(connection));
+            }
+        });
         c.onDispose(() -> {
             //处理遗嘱信息
             Optional.ofNullable(c.channel().attr(AttributeKeys.WILL_MESSAGE)).map(Attribute::get)

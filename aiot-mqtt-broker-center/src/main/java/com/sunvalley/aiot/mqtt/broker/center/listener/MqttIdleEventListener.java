@@ -43,5 +43,6 @@ public class MqttIdleEventListener extends IdleEventListener {
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).vsn(vsn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         kafkaTemplate.send(kafkaPublishTopic, model);
+        super.onApplicationEvent(idleEvent);
     }
 }
