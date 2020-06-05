@@ -35,13 +35,14 @@ public class MqttConnEventListener extends ConnEventListener {
     public void onApplicationEvent(ConnEvent connEvent) {
         //发送kafka
         MqttConnection connection = MqttConnection.class.cast(connEvent.getSource());
-        String sn = connection.getSn();
+        String sn = connection.getAttr(AttributeKeys.DEVICE_ID);
+        String vsn = connection.getAttr(AttributeKeys.V_SN);
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_ONLINE.name(), X_ONLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_ONLINE.name(), "timestamp", timestamp)).build();
-        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
+        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).vsn(vsn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.incrementTotalConnectionCount();
         kafkaTemplate.send(kafkaPublishTopic, model);
     }

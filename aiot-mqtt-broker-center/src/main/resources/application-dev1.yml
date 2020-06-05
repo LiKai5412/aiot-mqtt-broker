@@ -9,14 +9,11 @@ mqtt:
     heart-in-second: 60
     tls: true
     log: true
-    node-id: 2
+    node-id: 1
   topic:
     prefix-paths:
       - iot/get/
       - iot/update/
-
-skip:
-  authentication: true
 
 debug: true
 

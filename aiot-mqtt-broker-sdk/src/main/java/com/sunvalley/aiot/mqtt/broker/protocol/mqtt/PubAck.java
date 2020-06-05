@@ -5,6 +5,7 @@
 package com.sunvalley.aiot.mqtt.broker.protocol.mqtt;
 
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
+import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader;
 import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class PubAck {
         MqttMessageIdVariableHeader variableHeader = msg.variableHeader();
         int messageId = variableHeader.messageId();
         log.debug("PUBACK - deviceId: {}, messageId: {}",
-				connection.getSn(), messageId);
+                connection.getAttr(AttributeKeys.DEVICE_ID), messageId);
         connection.cancelDisposable(messageId);
     }
 

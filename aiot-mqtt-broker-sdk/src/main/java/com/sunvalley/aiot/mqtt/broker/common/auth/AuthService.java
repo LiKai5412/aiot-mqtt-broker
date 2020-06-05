@@ -4,6 +4,7 @@
 
 package com.sunvalley.aiot.mqtt.broker.common.auth;
 
+import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import org.springframework.util.StringUtils;
 
 /**
@@ -25,5 +26,10 @@ public class AuthService implements IAuthService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean checkValid(MqttConnection connection, String userName, String password) {
+        return false;
     }
 }

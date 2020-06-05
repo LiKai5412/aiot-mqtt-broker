@@ -76,7 +76,7 @@ public class Connect {
         String productKey = msg.payload().userName();
         String password = msg.payload().passwordInBytes() == null ? null : new String(msg.payload().passwordInBytes(), CharsetUtil.UTF_8);
         String deviceId = msg.payload().clientIdentifier();
-        if (!authService.checkValid(deviceId, productKey, password)) {
+        if (!authService.checkValid(connection, productKey, password)) {
             connection.sendConnAckMessage(MqttConnectReturnCode.CONNECTION_REFUSED_BAD_USER_NAME_OR_PASSWORD, false).subscribe();
             return false;
         }

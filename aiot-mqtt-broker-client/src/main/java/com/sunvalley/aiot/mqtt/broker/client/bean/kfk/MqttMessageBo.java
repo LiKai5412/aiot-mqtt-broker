@@ -28,6 +28,8 @@ public class MqttMessageBo {
     @NotBlank
     private String sn;
 
+    private String vsn;
+
     @NotBlank
     private Object payload;
 

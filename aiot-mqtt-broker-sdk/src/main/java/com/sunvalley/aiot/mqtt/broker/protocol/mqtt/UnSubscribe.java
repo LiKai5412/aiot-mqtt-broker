@@ -6,6 +6,7 @@ package com.sunvalley.aiot.mqtt.broker.protocol.mqtt;
 
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
+import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import io.netty.handler.codec.mqtt.MqttUnsubscribeMessage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +26,7 @@ public class UnSubscribe {
 
 	public void processUnSubscribe(MqttConnection connection, MqttUnsubscribeMessage msg) {
 		List<String> topics = msg.payload().topics();
-		String deviceId = connection.getSn();
+		String deviceId = connection.getAttr(AttributeKeys.DEVICE_ID);
 		topics.forEach(topic -> {
 			topicManager.deleteTopicConnection(topic, connection);
 			log.debug("UNSUBSCRIBE - deviceId: {}, topic: {}", deviceId, topic);

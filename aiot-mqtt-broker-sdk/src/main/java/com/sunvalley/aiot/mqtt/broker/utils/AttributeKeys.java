@@ -17,4 +17,6 @@ public interface AttributeKeys {
 
     AttributeKey<MqttPublishMessage> WILL_MESSAGE = AttributeKey.valueOf("WILL_MESSAGE");
 
+    AttributeKey<String> V_SN = AttributeKey.valueOf("vsn");
+
 }

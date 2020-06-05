@@ -22,7 +22,7 @@ public class DisConnect {
         Optional.ofNullable(connection.getConnection().channel().attr(AttributeKeys.WILL_MESSAGE)).map(Attribute::get).ifPresent(mqttPublishMessage -> {
             connection.getConnection().channel().attr(AttributeKeys.WILL_MESSAGE).set(null);
         });
-        String deviceId = connection.getSn();
+        String deviceId = connection.getAttr(AttributeKeys.DEVICE_ID);
         log.debug("DISCONNECT - deviceId: {}, cleanSession: {}", deviceId, connection.getCleanSession());
         connection.dispose();
     }

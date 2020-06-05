@@ -6,6 +6,7 @@ import com.sunvalley.aiot.mqtt.broker.utils.MqttMessageBuilder;
 import com.google.common.collect.Lists;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 import lombok.Data;
 import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
@@ -80,8 +81,8 @@ public class MqttConnection implements Disposable {
         return connection.isDisposed();
     }
 
-    public String getSn() {
-        return this.getConnection().channel().attr(AttributeKeys.DEVICE_ID).get();
+    public <T> T getAttr(AttributeKey<T> key) {
+        return this.getConnection().channel().attr(key).get();
     }
 
     public void addDisposable(Integer messageId, Disposable disposable) {

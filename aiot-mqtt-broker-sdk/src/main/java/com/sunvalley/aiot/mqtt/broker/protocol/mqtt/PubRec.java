@@ -5,6 +5,7 @@
 package com.sunvalley.aiot.mqtt.broker.protocol.mqtt;
 
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
+import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,7 @@ public class PubRec {
     public void processPubRec(MqttConnection connection, MqttMessage msg) {
         MqttMessageIdVariableHeader variableHeader = (MqttMessageIdVariableHeader) msg.variableHeader();
         int messageId = variableHeader.messageId();
-        log.debug("PUBREC - deviceId: {}, messageId: {}", connection.getSn(), messageId);
+        log.debug("PUBREC - deviceId: {}, messageId: {}", connection.getAttr(AttributeKeys.DEVICE_ID), messageId);
         connection.cancelDisposable(messageId);
         //发送PUBREL
         sendPubRel(connection, messageId );

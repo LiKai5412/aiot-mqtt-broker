@@ -41,7 +41,8 @@ public class MqttPublishEventListener extends PublishEventListener {
         Long publishBytes = (long) publishEvent.getArray().length;
         MqttMetric.addPublishBytes(publishBytes);
         MqttConnection connection = MqttConnection.class.cast(publishEvent.getSource());
-        String sn = connection.getSn();
+        String sn = connection.getAttr(AttributeKeys.DEVICE_ID);
+        String vsn = connection.getAttr(AttributeKeys.V_SN);
         String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttMetric.addPublishBytesBySn(sn, publishBytes);
@@ -50,7 +51,7 @@ public class MqttPublishEventListener extends PublishEventListener {
         if(messageType == MessageType.JSON){
             payLoad = UtilJson.readValue((String) payLoad, MqttJsonBo.class);
         }
-        MqttMessageBo mqttMessageBo = MqttMessageBo.builder().sn(sn).productKey(productKey)
+        MqttMessageBo mqttMessageBo = MqttMessageBo.builder().sn(sn).vsn(vsn).productKey(productKey)
                 .messageType(messageType).timestamp(timestamp).payload(payLoad).build();
         kafkaTemplate.send(kafkaPublishTopic, mqttMessageBo);
     }

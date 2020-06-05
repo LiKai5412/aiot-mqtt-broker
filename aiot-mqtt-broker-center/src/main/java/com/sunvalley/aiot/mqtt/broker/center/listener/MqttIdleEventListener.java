@@ -34,13 +34,14 @@ public class MqttIdleEventListener extends IdleEventListener {
     public void onApplicationEvent(IdleEvent idleEvent) {
         //发送kafka
         MqttConnection connection = MqttConnection.class.cast(idleEvent.getSource());
-        String sn = connection.getSn();
+        String sn = connection.getAttr(AttributeKeys.DEVICE_ID);
+        String vsn = connection.getAttr(AttributeKeys.V_SN);
         String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttJsonBo mqttJsonBo = MqttJsonBo.builder().method(Method.UPDATE.getValue())
                 .state(Map.of(X_OFFLINE.name(), X_OFFLINE.value()))
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_OFFLINE.name(), "timestamp", timestamp)).build();
-        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
+        MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).vsn(vsn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         kafkaTemplate.send(kafkaPublishTopic, model);
     }
 }

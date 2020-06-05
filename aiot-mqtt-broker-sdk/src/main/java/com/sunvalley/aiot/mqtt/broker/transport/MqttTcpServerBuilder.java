@@ -42,8 +42,17 @@ public class MqttTcpServerBuilder {
         this.clusterManager = new NonClusterManager();
         this.messageManager = new MemoryMessageManager();
         this.mqttTopicProperties = new MqttTopicProperties();
-        this.protocolProcessor = new ProtocolProcessor((user, pass) -> true,
-                channelManager, messageManager, topicManager, clusterManager, mqttEventPublisher, mqttTopicProperties);
+        this.protocolProcessor = new ProtocolProcessor(new IAuthService() {
+            @Override
+            public boolean checkValid(String userName, String password) {
+                return true;
+            }
+
+            @Override
+            public boolean checkValid(MqttConnection connection, String userName, String password) {
+                return checkValid(userName, password);
+            }
+        }, channelManager, messageManager, topicManager, clusterManager, mqttEventPublisher, mqttTopicProperties);
         this.mqttEventPublisher = new MqttEventPublisher();
         this.connectionSubscriber = new ConnectionSubscriber(topicManager, protocolProcessor, mqttTcpServerProperties, mqttEventPublisher);
     }
