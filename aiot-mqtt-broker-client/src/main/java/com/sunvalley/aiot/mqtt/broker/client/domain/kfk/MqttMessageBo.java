@@ -1,4 +1,4 @@
-package com.sunvalley.aiot.mqtt.broker.client.bean.kfk;
+package com.sunvalley.aiot.mqtt.broker.client.domain.kfk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.MessageType;

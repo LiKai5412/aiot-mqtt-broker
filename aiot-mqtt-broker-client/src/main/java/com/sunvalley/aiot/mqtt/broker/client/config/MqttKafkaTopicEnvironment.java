@@ -30,6 +30,7 @@ public class MqttKafkaTopicEnvironment implements EnvironmentAware {
         mqttKafkaTopicMap.put("mqtt.kafka.internal-topic", KafKaTopicConst.INTERNAL_TOPIC.concat("." + profile));
         mqttKafkaTopicMap.put("mqtt.kafka.publish-topic", KafKaTopicConst.PUBLISH_TOPIC.concat("." + profile));
         mqttKafkaTopicMap.put("mqtt.kafka.subscribe-topic", KafKaTopicConst.SUBSCRIBE_TOPIC.concat("." + profile));
+        mqttKafkaTopicMap.put("mqtt.kafka.response-internal-topic", KafKaTopicConst.RESPONSE_INTERNAL_TOPIC.concat("." + profile));
         MapPropertySource mapPropertySource = new MapPropertySource("mqttKafkaTopicConfig", mqttKafkaTopicMap);
         env.getPropertySources().addLast(mapPropertySource);
     }

@@ -17,6 +17,12 @@
         <dependency>
             <groupId>com.sunvalley</groupId>
             <artifactId>aiot-framework-base</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jasypt-spring-boot</artifactId>
+                    <groupId>com.github.ulisesbocchio</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

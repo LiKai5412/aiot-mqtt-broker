@@ -1,7 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.client.service;
 
 import com.sunvalley.aiot.mqtt.broker.client.annotation.KafkaInternalTopic;
-import com.sunvalley.aiot.mqtt.broker.client.bean.po.DisconnMessage;
+import com.sunvalley.aiot.mqtt.broker.client.domain.po.DisconnMessage;
 import org.springframework.kafka.core.KafkaTemplate;
 
 /**

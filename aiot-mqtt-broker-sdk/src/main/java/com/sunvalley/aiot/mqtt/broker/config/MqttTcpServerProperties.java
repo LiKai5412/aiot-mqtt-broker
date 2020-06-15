@@ -68,6 +68,16 @@ public class MqttTcpServerProperties {
 
     private int nodeId;
 
+    /**
+     * 证书下载地址
+     */
+    private String certUrl;
+
+    /**
+     * 证书秘钥下载地址
+     */
+    private String certPrivateKey;
+
     private Consumer<Throwable> throwableConsumer = throwable -> {
         log.error(throwable.getMessage(), throwable);
     };

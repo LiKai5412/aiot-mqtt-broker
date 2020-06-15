@@ -2,8 +2,8 @@ package com.sunvalley.aiot.mqtt.broker.center.listener;
 
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.client.annotation.KafkaPublishTopic;
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttJsonBo;
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttMessageBo;
+import com.sunvalley.aiot.mqtt.broker.client.domain.kfk.MqttJsonBo;
+import com.sunvalley.aiot.mqtt.broker.client.domain.kfk.MqttMessageBo;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.MessageType;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.Method;
 import com.sunvalley.aiot.mqtt.broker.event.DisConnEvent;

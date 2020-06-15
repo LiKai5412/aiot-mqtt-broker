@@ -34,7 +34,7 @@ public class ProxyKafkaClusterManager extends KafkaClusterManager {
                 MqttConnection mqttConnection = getChannelManager().getConnectionByDeviceId(internalMessage.getDeviceId());
                 if (mqttConnection != null) {
                     //断开重复deviceId的客户端
-                    log.debug("Disconnect deviceId {} due to relogin ", internalMessage.getDeviceId());
+                    log.debug("Disconnect deviceId {} due to relogin", internalMessage.getDeviceId());
                     mqttConnection.dispose();
                 }
                 break;

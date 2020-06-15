@@ -1,10 +1,7 @@
-package com.sunvalley.aiot.mqtt.broker.client.bean.kfk;
+package com.sunvalley.aiot.mqtt.broker.client.domain.kfk;
 
-import com.sunvalley.aiot.mqtt.broker.client.enumeration.Method;
-import com.sunvalley.otter.framework.core.utils.UtilJson;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;

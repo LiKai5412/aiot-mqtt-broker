@@ -1,7 +1,7 @@
 package com.sunvalley.aiot.mqtt.broker.center.listener.kfk;
 
 import com.sunvalley.aiot.mqtt.broker.api.TopicManager;
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttMessageBo;
+import com.sunvalley.aiot.mqtt.broker.client.domain.kfk.MqttMessageBo;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

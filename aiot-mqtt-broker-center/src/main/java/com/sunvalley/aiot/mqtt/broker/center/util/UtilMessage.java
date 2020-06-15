@@ -1,8 +1,6 @@
 package com.sunvalley.aiot.mqtt.broker.center.util;
 
-import com.sunvalley.aiot.mqtt.broker.client.bean.kfk.MqttMessageBo;
 import com.sunvalley.aiot.mqtt.broker.client.enumeration.MessageType;
-import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
