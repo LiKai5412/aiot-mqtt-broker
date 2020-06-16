@@ -1,8 +1,8 @@
 package com.sunvalley.aiot.mqtt.broker.center.util;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.sunvalley.aiot.mqtt.broker.api.ChannelManager;
 import com.sunvalley.aiot.mqtt.broker.api.MemoryChannelManager;
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
 import com.sunvalley.aiot.mqtt.broker.client.domain.web.CommandBo;
@@ -29,7 +29,7 @@ import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 @Component
 public class MqttMessageUtils {
 
-    private static MemoryChannelManager memoryChannelManager;
+    private static ChannelManager channelManager;
 
     private final static String IOT_GET = "iot/get/";
 
@@ -48,8 +48,8 @@ public class MqttMessageUtils {
 
 
     @Value("#{channelManager}")
-    public void setMemoryChannelManager(MemoryChannelManager memoryChannelManager) {
-        MqttMessageUtils.memoryChannelManager = memoryChannelManager;
+    public void setMemoryChannelManager(ChannelManager channelManager) {
+        MqttMessageUtils.channelManager = channelManager;
     }
 
     public static void sendPublishMessage(CommandBo commandBo) {
@@ -62,7 +62,7 @@ public class MqttMessageUtils {
 
     @SneakyThrows
     public static void sendPublishMessage(String sn, MqttQoS qos, boolean isRetain, String topic, String message) {
-        MqttConnection mqttConnection = memoryChannelManager.getConnectionByDeviceId(sn);
+        MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(sn);
         if (mqttConnection != null) {
             MqttPublishMessage mqttPublishMessage = MqttMessageBuilder.buildPub(qos, isRetain, mqttConnection.generateMessageId(),
                     topic, message.getBytes(Charsets.UTF_8));
@@ -81,7 +81,7 @@ public class MqttMessageUtils {
 
     public static void sendPublishMessageRetry(String sn, MqttQoS qos, boolean isRetain,
                                                String topic, String message) {
-        MqttConnection mqttConnection = memoryChannelManager.getConnectionByDeviceId(sn);
+        MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(sn);
         if (mqttConnection == null) {
             return;
         }
@@ -97,7 +97,7 @@ public class MqttMessageUtils {
 
     public static void sendPubAckMessage(String sn, boolean isRetain, boolean isDup,
                                          int messageId) {
-        MqttConnection mqttConnection = memoryChannelManager.getConnectionByDeviceId(sn);
+        MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(sn);
         if (mqttConnection == null) {
             return;
         }
@@ -108,7 +108,7 @@ public class MqttMessageUtils {
 
     public static void sendPubAckMessageRetry(String sn, boolean isRetain, boolean isDup,
                                               int messageId) {
-        MqttConnection mqttConnection = memoryChannelManager.getConnectionByDeviceId(sn);
+        MqttConnection mqttConnection = channelManager.getConnectionByDeviceId(sn);
         if (mqttConnection == null) {
             return;
         }

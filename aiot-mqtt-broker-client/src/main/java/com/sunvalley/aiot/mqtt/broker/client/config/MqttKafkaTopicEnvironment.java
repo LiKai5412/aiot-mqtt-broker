@@ -26,11 +26,12 @@ public class MqttKafkaTopicEnvironment implements EnvironmentAware {
         if (profiles != null && profiles.length > 0) {
             profile = profiles[0];
         }
-        Map<String, Object> mqttKafkaTopicMap = new HashMap<>(3);
-        mqttKafkaTopicMap.put("mqtt.kafka.internal-topic", KafKaTopicConst.INTERNAL_TOPIC.concat("." + profile));
-        mqttKafkaTopicMap.put("mqtt.kafka.publish-topic", KafKaTopicConst.PUBLISH_TOPIC.concat("." + profile));
-        mqttKafkaTopicMap.put("mqtt.kafka.subscribe-topic", KafKaTopicConst.SUBSCRIBE_TOPIC.concat("." + profile));
-        mqttKafkaTopicMap.put("mqtt.kafka.response-internal-topic", KafKaTopicConst.RESPONSE_INTERNAL_TOPIC.concat("." + profile));
+        String applicationName = env.getProperty("spring.application.name", "sunvallyApp");
+        Map<String, Object> mqttKafkaTopicMap = new HashMap<>(4);
+        mqttKafkaTopicMap.put("mqtt.kafka.internal-topic", KafKaTopicConst.INTERNAL_TOPIC.concat("."+applicationName).concat("." + profile));
+        mqttKafkaTopicMap.put("mqtt.kafka.publish-topic", KafKaTopicConst.PUBLISH_TOPIC.concat("."+applicationName).concat("." + profile));
+        mqttKafkaTopicMap.put("mqtt.kafka.subscribe-topic", KafKaTopicConst.SUBSCRIBE_TOPIC.concat("."+applicationName).concat("." + profile));
+        mqttKafkaTopicMap.put("mqtt.kafka.response-internal-topic", KafKaTopicConst.RESPONSE_INTERNAL_TOPIC.concat("."+applicationName).concat("." + profile));
         MapPropertySource mapPropertySource = new MapPropertySource("mqttKafkaTopicConfig", mqttKafkaTopicMap);
         env.getPropertySources().addLast(mapPropertySource);
     }
