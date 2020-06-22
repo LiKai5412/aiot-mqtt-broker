@@ -3,13 +3,13 @@ package com.sunvalley.aiot.mqtt.broker.center.util;
 
 import com.google.common.base.Charsets;
 import com.sunvalley.aiot.mqtt.broker.api.ChannelManager;
-import com.sunvalley.aiot.mqtt.broker.api.MemoryChannelManager;
 import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
+import com.sunvalley.aiot.mqtt.broker.api.cluster.ClusterManager;
+import com.sunvalley.aiot.mqtt.broker.api.cluster.KafkaClusterManager;
 import com.sunvalley.aiot.mqtt.broker.client.domain.web.CommandBo;
 import com.sunvalley.aiot.mqtt.broker.common.message.InternalMessage;
 import com.sunvalley.aiot.mqtt.broker.config.MqttTcpServerProperties;
 import com.sunvalley.aiot.mqtt.broker.utils.MqttMessageBuilder;
-
 import io.netty.handler.codec.mqtt.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,17 +33,14 @@ public class MqttMessageUtils {
 
     private final static String IOT_GET = "iot/get/";
 
-    private static KafkaTemplate kafkaTemplate;
-
     private static MqttTcpServerProperties mqttTcpServerProperties;
 
-    private static String responseInternalTopic;
+    private static ClusterManager clusterManager;
 
-    public MqttMessageUtils(KafkaTemplate kafkaTemplate, MqttTcpServerProperties mqttTcpServerProperties,
-                            @Value("${mqtt.kafka.response-internal-topic}") String responseInternalTopic) {
-        MqttMessageUtils.kafkaTemplate = kafkaTemplate;
+    public MqttMessageUtils(MqttTcpServerProperties mqttTcpServerProperties,
+                            ClusterManager clusterManager) {
         MqttMessageUtils.mqttTcpServerProperties = mqttTcpServerProperties;
-        MqttMessageUtils.responseInternalTopic = responseInternalTopic;
+        MqttMessageUtils.clusterManager = clusterManager;
     }
 
 
@@ -68,10 +65,10 @@ public class MqttMessageUtils {
                     topic, message.getBytes(Charsets.UTF_8));
             mqttConnection.getOutbound().sendObject(mqttPublishMessage).then().subscribe();
         } else {
-            InternalMessage internalMessage = InternalMessage.builder().messageType(InternalMessage.MessageType.PUBMESSAGE).deviceId(sn)
+            InternalMessage internalMessage = InternalMessage.builder().messageType(InternalMessage.MessageType.RESPMESSAE).deviceId(sn)
                     .messageBytes(message.getBytes(StandardCharsets.UTF_8)).mqttQoS(AT_MOST_ONCE.value()).dup(false)
                     .retain(false).topic(topic).nodeId(String.valueOf(mqttTcpServerProperties.getNodeId())).build();
-            kafkaTemplate.send(responseInternalTopic, internalMessage);
+            clusterManager.sendInternalMessage(internalMessage);
         }
     }
 

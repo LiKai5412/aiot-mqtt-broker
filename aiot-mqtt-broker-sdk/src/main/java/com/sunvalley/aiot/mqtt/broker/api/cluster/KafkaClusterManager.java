@@ -59,25 +59,7 @@ public class KafkaClusterManager extends AbstractClusterManager {
                     mqttConnection.dispose();
                 }
                 break;
-            case PUBMESSAGE:
-                //将消息转发至指定客户端
-                List<MqttConnection> mqttConnections = topicManager.getConnectionsByTopic(internalMessage.getTopic());
-                if (!CollectionUtils.isEmpty(mqttConnections)) {
-                    mqttConnections.forEach(connection -> connection.sendPublishMessage(MqttQoS.valueOf(internalMessage.getMqttQoS()),
-                            internalMessage.isRetain(), internalMessage.getTopic(), internalMessage.getMessageBytes()).subscribe());
-                }
-                break;
-            default:
-        }
-    }
-
-    @KafkaListener(topics = "${mqtt.kafka.response-internal-topic}")
-    public void receiveResponseInternalMessage(InternalMessage internalMessage) {
-        //丢弃自己发送的消息
-        if (getNodeId().equalsIgnoreCase(internalMessage.getNodeId())) {
-            return;
-        }
-        switch (internalMessage.getMessageType()) {
+            case RESPMESSAE:
             case PUBMESSAGE:
                 //将消息转发至指定客户端
                 List<MqttConnection> mqttConnections = topicManager.getConnectionsByTopic(internalMessage.getTopic());
@@ -92,7 +74,6 @@ public class KafkaClusterManager extends AbstractClusterManager {
 
     @Override
     protected void doSend(InternalMessage internalMessage) {
-        internalMessage.setNodeId(getNodeId());
         kafkaTemplate.send(mqttKafkaTopicProperties.getInternalTopic(), internalMessage);
     }
 }

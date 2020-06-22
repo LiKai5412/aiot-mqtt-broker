@@ -78,6 +78,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.sunvalley</groupId>
+            <artifactId>aiot-mqtt-broker-client</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -15,6 +15,4 @@ public class MqttKafkaTopicProperties {
     private String publishTopic;
 
     private String subscribeTopic;
-
-    private String responseInternalTopic;
 }

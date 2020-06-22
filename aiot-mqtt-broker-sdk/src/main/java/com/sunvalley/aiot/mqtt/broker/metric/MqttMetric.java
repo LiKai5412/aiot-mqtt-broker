@@ -19,8 +19,11 @@ import java.util.concurrent.atomic.LongAdder;
 public class MqttMetric {
     private static LongAdder totalConnectionCount = new LongAdder();
     private static LongAdder totalPublishCount = new LongAdder();
+    private static LongAdder totalReceiveCount = new LongAdder();
     private static LongAdder totalPublishBytes = new LongAdder();
+    private static LongAdder totalReceiveBytes = new LongAdder();
     private static ConcurrentHashMap<String, LongAdder> snMappingPublishBytesMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, LongAdder> snMappingReceiveBytesMap = new ConcurrentHashMap<>();
 
     @GetMapping("/publish/bytes/{sn}")
     public Map get(@PathVariable("sn") String sn) {
@@ -40,6 +43,16 @@ public class MqttMetric {
         return convertUnit(totalPublishBytes.longValue());
     }
 
+    @GetMapping("/receive/count")
+    public Long totalReceiveCount() {
+        return totalReceiveCount.longValue();
+    }
+
+    @GetMapping("/receive/bytes")
+    public String totalReceiveBytes() {
+        return convertUnit(totalReceiveBytes.longValue());
+    }
+
     @GetMapping("/conn/count")
     public Long totalConnCount() {
         return totalConnectionCount.longValue();
@@ -47,6 +60,10 @@ public class MqttMetric {
 
     public static void incrementTotalPublishCount() {
         totalPublishCount.increment();
+    }
+
+    public static void incrementTotalReceiveCount() {
+        totalReceiveCount.increment();
     }
 
     public static void incrementTotalConnectionCount() {
@@ -59,6 +76,10 @@ public class MqttMetric {
 
     public static void addPublishBytes(long publishBytes) {
         totalPublishBytes.add(publishBytes);
+    }
+
+    public static void addReceiveBytes(long receiveBytes) {
+        totalReceiveBytes.add(receiveBytes);
     }
 
     public static void removePublishBytesBySn(String sn){
@@ -76,6 +97,15 @@ public class MqttMetric {
             snMappingPublishBytesMap.put(sn, snPublishBytesAdder);
         }
         snPublishBytesAdder.add(publishBytes);
+    }
+
+    public static void addReceiveBytesBySn(String sn, long publishBytes) {
+        LongAdder snReceiveBytesAdder = snMappingReceiveBytesMap.get(sn);
+        if (snReceiveBytesAdder == null) {
+            snReceiveBytesAdder = new LongAdder();
+            snMappingReceiveBytesMap.put(sn, snReceiveBytesAdder);
+        }
+        snReceiveBytesAdder.add(publishBytes);
     }
 
     private String convertUnit(Long size) {

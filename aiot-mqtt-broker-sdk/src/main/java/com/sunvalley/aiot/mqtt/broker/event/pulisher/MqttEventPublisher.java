@@ -1,8 +1,5 @@
 package com.sunvalley.aiot.mqtt.broker.event.pulisher;
 
-import com.sunvalley.aiot.mqtt.broker.api.MqttConnection;
-import com.sunvalley.aiot.mqtt.broker.event.processor.EventProcessor;
-import com.sunvalley.aiot.mqtt.broker.event.IdleEvent;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -13,7 +10,6 @@ import org.springframework.context.ApplicationEventPublisherAware;
  */
 public class MqttEventPublisher implements ApplicationEventPublisherAware {
     private ApplicationEventPublisher applicationEventPublisher;
-    private static EventProcessor eventProcessor = new EventProcessor();
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
@@ -21,12 +17,6 @@ public class MqttEventPublisher implements ApplicationEventPublisherAware {
     }
 
     public void publishEvent(ApplicationEvent applicationEvent) {
-        if (applicationEventPublisher == null) {
-            if (applicationEvent instanceof IdleEvent) {
-                eventProcessor.processIdleEvent((MqttConnection) applicationEvent.getSource());
-            }
-        } else {
-            applicationEventPublisher.publishEvent(applicationEvent);
-        }
+        applicationEventPublisher.publishEvent(applicationEvent);
     }
 }

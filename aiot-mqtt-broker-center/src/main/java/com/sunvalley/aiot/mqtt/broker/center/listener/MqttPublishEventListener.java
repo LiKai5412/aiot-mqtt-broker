@@ -36,16 +36,16 @@ public class MqttPublishEventListener extends PublishEventListener {
 
     @Override
     public void onApplicationEvent(PublishEvent publishEvent) {
-        //统计发送数据
-        MqttMetric.incrementTotalPublishCount();
+        //统计接收数据
+        MqttMetric.incrementTotalReceiveCount();
         Long publishBytes = (long) publishEvent.getArray().length;
-        MqttMetric.addPublishBytes(publishBytes);
+        MqttMetric.addReceiveBytes(publishBytes);
         MqttConnection connection = MqttConnection.class.cast(publishEvent.getSource());
         String sn = connection.getAttr(AttributeKeys.DEVICE_ID);
         String vsn = connection.getAttr(AttributeKeys.V_SN);
         String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
-        MqttMetric.addPublishBytesBySn(sn, publishBytes);
+        MqttMetric.addReceiveBytesBySn(sn, publishBytes);
         MessageType messageType = UtilMessage.getMessageType(publishEvent.getArray());
         Object payLoad = new String(publishEvent.getArray(), StandardCharsets.UTF_8);
         if(messageType == MessageType.JSON){

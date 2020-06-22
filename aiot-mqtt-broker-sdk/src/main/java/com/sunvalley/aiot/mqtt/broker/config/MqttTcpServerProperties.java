@@ -24,7 +24,7 @@ public class MqttTcpServerProperties {
 
     private int heartInSecond = 60;
 
-    private int idleNumber = 3;
+    private int idleNumber = 1;
 
     private boolean printLog;
 

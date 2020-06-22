@@ -44,6 +44,17 @@ public class InternalMessage {
 	}
 
     public enum MessageType {
-        PUBMESSAGE, CONNMESSAGE
+        /**
+         * 转发消息类型
+         */
+        PUBMESSAGE,
+        /**
+         * 连接消息类型
+         */
+        CONNMESSAGE,
+        /**
+         * 下发消息类型
+         */
+        RESPMESSAE
     }
 }

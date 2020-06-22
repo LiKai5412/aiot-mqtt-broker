@@ -90,7 +90,7 @@ public class Connect {
                 sessionPresent = true;
                 mqttConnection.dispose();
             }
-        }else {
+        } else {
             //发送集群消息,关闭其他节点上的相同deviceId的连接
             clusterManager.sendInternalMessage(InternalMessage.buildConnMessage(deviceId));
         }
