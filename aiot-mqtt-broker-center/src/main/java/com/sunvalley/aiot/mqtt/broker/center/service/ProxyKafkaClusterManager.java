@@ -90,7 +90,9 @@ public class ProxyKafkaClusterManager extends KafkaClusterManager {
         switch (internalMessage.getMessageType()) {
             case RESPMESSAE:
             case CONNMESSAGE:
-                getKafkaTemplate().send(getMqttKafkaTopicProperties().getInternalTopic(), internalMessage);
+                if(!getMqttTcpServerProperties().isPressure()) {
+                    getKafkaTemplate().send(getMqttKafkaTopicProperties().getInternalTopic(), internalMessage);
+                }
                 break;
             default:
         }

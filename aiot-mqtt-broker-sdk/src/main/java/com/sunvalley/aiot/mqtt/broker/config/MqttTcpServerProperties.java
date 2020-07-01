@@ -78,6 +78,11 @@ public class MqttTcpServerProperties {
      */
     private String certPrivateKey;
 
+    /**
+     * 是否压力测试
+     */
+    private boolean pressure = false;
+
     private Consumer<Throwable> throwableConsumer = throwable -> {
         log.error(throwable.getMessage(), throwable);
     };
