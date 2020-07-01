@@ -13,6 +13,7 @@ import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.otter.framework.core.utils.UtilDate;
 import com.sunvalley.otter.framework.core.utils.UtilJson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +31,9 @@ public class MqttPublishEventListener extends PublishEventListener {
     @KafkaPublishTopic
     private String kafkaPublishTopic;
 
+    @Value("${mqtt.tcp-server.pressure:false}")
+    private boolean pressure;
+
     public MqttPublishEventListener() {
         super();
     }
@@ -46,13 +50,15 @@ public class MqttPublishEventListener extends PublishEventListener {
         String productKey = connection.getConnection().channel().attr(AttributeKeys.PRODUCT_KEY).get();
         Long timestamp = UtilDate.toMilliseconds(LocalDateTime.now());
         MqttMetric.addReceiveBytesBySn(sn, publishBytes);
-        MessageType messageType = UtilMessage.getMessageType(publishEvent.getArray());
-        Object payLoad = new String(publishEvent.getArray(), StandardCharsets.UTF_8);
-        if(messageType == MessageType.JSON){
-            payLoad = UtilJson.readValue((String) payLoad, MqttJsonBo.class);
+        if(!pressure) {
+            MessageType messageType = UtilMessage.getMessageType(publishEvent.getArray());
+            Object payLoad = new String(publishEvent.getArray(), StandardCharsets.UTF_8);
+            if (messageType == MessageType.JSON) {
+                payLoad = UtilJson.readValue((String) payLoad, MqttJsonBo.class);
+            }
+            MqttMessageBo mqttMessageBo = MqttMessageBo.builder().sn(sn).vsn(vsn).productKey(productKey)
+                    .messageType(messageType).timestamp(timestamp).payload(payLoad).build();
+            kafkaTemplate.send(kafkaPublishTopic, mqttMessageBo);
         }
-        MqttMessageBo mqttMessageBo = MqttMessageBo.builder().sn(sn).vsn(vsn).productKey(productKey)
-                .messageType(messageType).timestamp(timestamp).payload(payLoad).build();
-        kafkaTemplate.send(kafkaPublishTopic, mqttMessageBo);
     }
 }

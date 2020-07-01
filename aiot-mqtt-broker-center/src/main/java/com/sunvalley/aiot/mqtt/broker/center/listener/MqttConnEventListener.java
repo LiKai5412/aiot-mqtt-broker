@@ -12,6 +12,7 @@ import com.sunvalley.aiot.mqtt.broker.metric.MqttMetric;
 import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.otter.framework.core.utils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,9 @@ public class MqttConnEventListener extends ConnEventListener {
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Value("${mqtt.tcp-server.pressure:false}")
+    private boolean pressure;
 
     @KafkaPublishTopic
     private String kafkaPublishTopic;
@@ -44,6 +48,8 @@ public class MqttConnEventListener extends ConnEventListener {
                 .metaData(MqttJsonBo.MetaData.builder().build().addStateMetaData(X_ONLINE.name(), "timestamp", timestamp)).build();
         MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).vsn(vsn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.incrementTotalConnectionCount();
-        kafkaTemplate.send(kafkaPublishTopic, model);
+        if(!pressure) {
+            kafkaTemplate.send(kafkaPublishTopic, model);
+        }
     }
 }

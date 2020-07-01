@@ -12,6 +12,7 @@ import com.sunvalley.aiot.mqtt.broker.metric.MqttMetric;
 import com.sunvalley.aiot.mqtt.broker.utils.AttributeKeys;
 import com.sunvalley.otter.framework.core.utils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +32,9 @@ public class MqttDisConnEventListener extends DisConnEventListener {
     @KafkaPublishTopic
     private String kafkaPublishTopic;
 
+    @Value("${mqtt.tcp-server.pressure:false}")
+    private boolean pressure;
+
     @Override
     public void onApplicationEvent(DisConnEvent disConnEvent) {
         //发送kafka
@@ -49,6 +53,8 @@ public class MqttDisConnEventListener extends DisConnEventListener {
         MqttMessageBo model = MqttMessageBo.builder().productKey(productKey).sn(sn).vsn(vsn).messageType(MessageType.JSON).payload(mqttJsonBo).build();
         MqttMetric.decrementTotalConnectionCount();
         MqttMetric.removePublishBytesBySn(sn);
-        kafkaTemplate.send(kafkaPublishTopic, model);
+        if(!pressure) {
+            kafkaTemplate.send(kafkaPublishTopic, model);
+        }
     }
 }
